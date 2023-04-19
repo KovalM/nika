@@ -20,12 +20,14 @@ ScAddrVector GNNLearningManager::manage(ScAddrVector const & processParameters)
 
   std::list<SampleElement *> trainSample;
   std::list<SampleElement *> testSample;
+  double averageVertexesSize = 0;
+  double averageEdgesSize = 0;
   for (int classIndex = 0; classIndex < classesNumber; classIndex++)
   {
     ScAddr currentClass = processParameters[classIndex];
     int classElementsNumber = std::min(
         utils::CommonUtils::getPowerOfSet(context, currentClass),
-        150);
+        100);
     int trainSampleSize = (int)(classElementsNumber * 0.8);
 
     SC_LOG_INFO("GNNLearningManager: Process class " + std::to_string(classIndex) + " with " + std::to_string(classElementsNumber) + " elements");
@@ -38,6 +40,8 @@ ScAddrVector GNNLearningManager::manage(ScAddrVector const & processParameters)
     while (iterator3->Next())
     {
       auto graph = translateSemanticNeighborhood(iterator3->Get(2));
+      averageVertexesSize += (double)graph->getVertexLabels()->size();
+      averageEdgesSize += (double)graph->getEdges()->size();
       auto sample = new SampleElement(graph, classIndex);
       if (index <= trainSampleSize)
       {
@@ -58,6 +62,15 @@ ScAddrVector GNNLearningManager::manage(ScAddrVector const & processParameters)
   jsonFileTranslator->translate(trainSample, SAMPLE_PATH + "/train/");
   jsonFileTranslator->translate(testSample, SAMPLE_PATH + "/test/");
 
+  averageVertexesSize = averageVertexesSize / (double)(trainSample.size() + testSample.size());
+  averageEdgesSize = averageEdgesSize / (double)(trainSample.size() + testSample.size());
+
+  SC_LOG_INFO("Train sample size: " + std::to_string(trainSample.size()));
+  SC_LOG_INFO("Test sample size: " + std::to_string(testSample.size()));
+  SC_LOG_INFO("Average graph. Vertexes: "
+              + std::to_string(averageVertexesSize)
+              + "Edges: " + std::to_string(averageEdgesSize));
+
   return {};
 }
 
@@ -65,7 +78,6 @@ Graph * GNNLearningManager::translateSemanticNeighborhood(ScAddr const & element
 {
   auto graph = new Graph();
   translatedScElements.clear();
-  translatedScElementsSize = 0;
 
   if (context->GetElementType(element).IsEdge())
   {
@@ -89,13 +101,33 @@ int GNNLearningManager::resolveElementInTranslation(ScAddr const & element, Grap
   }
   else
   {
-    int vertexIndex = translatedScElementsSize;
+    int vertexIndex = translatedScElements.size();
     translatedScElements.insert({element, vertexIndex});
-    int vertexLabel = context->GetElementType(element);
+
+    int vertexLabel = getVertexLabel(element);
     graph->addVertex(vertexIndex, vertexLabel);
-    translatedScElementsSize++;
     return vertexIndex;
   }
+}
+
+int GNNLearningManager::getVertexLabel(ScAddr const & element)
+{
+  int label = -1;
+  ScType type = context->GetElementType(element);
+  for (int i = 0; i < usedTypes.size(); i++)
+  {
+    if (type == usedTypes[i])
+    {
+      label = i;
+      break;
+    }
+  }
+  if (label < 0)
+  {
+    label = (int) usedTypes.size();
+    usedTypes.push_back(type);
+  }
+  return label;
 }
 
 void GNNLearningManager::translateEdge(ScAddr const & edge, Graph * graph)

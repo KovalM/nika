@@ -30,10 +30,12 @@ private:
 
   int resolveElementInTranslation(ScAddr const & element, Graph * graph);
 
+  int getVertexLabel(ScAddr const & element);
+
   ScMemoryContext * context;
   unique_ptr<SampleToJsonFileTranslator> jsonFileTranslator;
   std::unordered_map<ScAddr, int, ScAddrHashFunc<size_t>, ScAddrLessFunc> translatedScElements;
-  int translatedScElementsSize;
+  std::vector<ScType> usedTypes;
 };
 
 }

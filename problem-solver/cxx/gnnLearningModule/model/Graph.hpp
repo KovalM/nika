@@ -16,10 +16,11 @@ public:
 
   void addVertex(int const index, int const label)
   {
-    auto const & it = vertexLabels.find(index);
+    std::string key = std::to_string(index);
+    auto const & it = vertexLabels.find(key);
     if (it == vertexLabels.cend())
     {
-      vertexLabels.insert({index, label});
+      vertexLabels.insert({key, std::to_string(label)});
     }
   }
 
@@ -28,12 +29,12 @@ public:
     return &this->edges;
   }
 
-  std::map<int, int> const * getVertexLabels() const
+  std::map<std::string, std::string> const * getVertexLabels() const
   {
     return &this->vertexLabels;
   }
 
 private:
-  std::map<int, int> vertexLabels;
+  std::map<std::string, std::string> vertexLabels;
   std::list<std::vector<int>> edges;
 };

@@ -21,7 +21,9 @@ bool SampleToJsonFileTranslator::translate(std::list<SampleElement *> const & sa
 
     elementJson[JSON_TARGET_KEY] = sampleElement->getClassIndex();
     elementJson[JSON_EDGES_KEY] = *(graph->getEdges());
+
     elementJson[JSON_LABELS_KEY] = *(graph->getVertexLabels());
+
 
     std::string filePath = path + std::to_string(index) + ".json";
     std::ofstream out;
