@@ -1,0 +1,8 @@
+action_train_gnn
+<- sc_node_class;
+=> nrel_main_idtf:
+	[действие. обучить графовую нейронную сеть](* <- lang_ru;; *);
+	[action. train GNN](* <- lang_en;; *);
+<- actions_class;
+<- atomic_action_class;
+<= nrel_inclusion: information_action;;
