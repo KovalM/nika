@@ -17,16 +17,18 @@ public:
 
   ScAddrVector manage(ScAddrVector const & processParameters);
 
-  Graph * translateSemanticNeighborhood(ScAddr const & element);
+  Graph * translateSemanticNeighborhood(ScAddr const & element, Graph * graph);
 
 private:
   void translateEdge(ScAddr const & edge, Graph * graph);
 
   void translateClasses(ScAddr const & element, Graph * graph);
 
-  void translateRoleRelations(ScAddr const & element, Graph * graph);
+  void translateElements(ScAddr const & elementsClass, Graph * graph);
 
-  void translateNoRoleRelations(ScAddr const & element, Graph * graph);
+  void translateNoRoleInRelations(ScAddr const & element, Graph * graph);
+
+  void translateNoRoleOutRelations(ScAddr const & element, Graph * graph);
 
   int resolveElementInTranslation(ScAddr const & element, Graph * graph);
 
@@ -36,6 +38,7 @@ private:
   unique_ptr<SampleToJsonFileTranslator> jsonFileTranslator;
   std::unordered_map<ScAddr, int, ScAddrHashFunc<size_t>, ScAddrLessFunc> translatedScElements;
   std::vector<ScType> usedTypes;
+  std::unordered_set<ScAddr, ScAddrHashFunc<size_t>> translatedNeighborhood;
 };
 
 }

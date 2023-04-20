@@ -39,17 +39,30 @@ ScAddrVector GNNLearningManager::manage(ScAddrVector const & processParameters)
         ScType::Unknown);
     while (iterator3->Next())
     {
-      auto graph = translateSemanticNeighborhood(iterator3->Get(2));
+      auto graph = new Graph();
+      translatedScElements.clear();
+      translatedNeighborhood.clear();
+
+      ScAddr element = iterator3->Get(2);
+      translateSemanticNeighborhood(element, graph);
+      if (context->GetElementType(element).IsEdge())
+      {
+        translateEdge(element, graph);
+      }
+
       averageVertexesSize += (double)graph->getVertexLabels()->size();
       averageEdgesSize += (double)graph->getEdges()->size();
       auto sample = new SampleElement(graph, classIndex);
-      if (index <= trainSampleSize)
+      if (graph->getEdges()->size() > 0)
       {
-        trainSample.push_back(sample);
-      }
-      else
-      {
-        testSample.push_back(sample);
+        if (index <= trainSampleSize)
+        {
+          trainSample.push_back(sample);
+        }
+        else
+        {
+          testSample.push_back(sample);
+        }
       }
       index++;
       if (index > classElementsNumber)
@@ -69,24 +82,20 @@ ScAddrVector GNNLearningManager::manage(ScAddrVector const & processParameters)
   SC_LOG_INFO("Test sample size: " + std::to_string(testSample.size()));
   SC_LOG_INFO("Average graph. Vertexes: "
               + std::to_string(averageVertexesSize)
-              + "Edges: " + std::to_string(averageEdgesSize));
+              + ". Edges: " + std::to_string(averageEdgesSize));
 
   return {};
 }
 
-Graph * GNNLearningManager::translateSemanticNeighborhood(ScAddr const & element)
+Graph * GNNLearningManager::translateSemanticNeighborhood(ScAddr const & element, Graph * graph)
 {
-  auto graph = new Graph();
-  translatedScElements.clear();
-
-  if (context->GetElementType(element).IsEdge())
+  if (translatedNeighborhood.find(element) == translatedNeighborhood.end())
   {
-    translateEdge(element, graph);
-  }
-  else
-  {
-    resolveElementInTranslation(element, graph);
-    translateClasses(element, graph);
+    translatedNeighborhood.insert(element);
+//    translateClasses(element, graph);
+    translateNoRoleInRelations(element, graph);
+//    translateNoRoleOutRelations(element, graph);
+//    translateElements(element, graph);
   }
 
   return graph;
@@ -143,9 +152,8 @@ void GNNLearningManager::translateEdge(ScAddr const & edge, Graph * graph)
   graph->addEdge(startIndex, edgeIndex);
   graph->addEdge(edgeIndex, finishIndex);
 
-  translateClasses(start, graph);
-  translateClasses(edge, graph);
-  translateClasses(finish, graph);
+  translateSemanticNeighborhood(start, graph);
+  translateSemanticNeighborhood(finish, graph);
 }
 
 void GNNLearningManager::translateClasses(ScAddr const & element, Graph * graph)
@@ -157,25 +165,73 @@ void GNNLearningManager::translateClasses(ScAddr const & element, Graph * graph)
       element);
   while (iterator3 -> Next())
   {
-    ScAddr start = iterator3->Get(0);
-    int startIndex = resolveElementInTranslation(start, graph);
+    ScAddr elementClass = iterator3->Get(0);
+    int classIndex = resolveElementInTranslation(elementClass, graph);
 
     ScAddr scArc = iterator3->Get(1);
     int arcIndex = resolveElementInTranslation(scArc, graph);
 
-    graph->addEdge(startIndex, arcIndex);
+    graph->addEdge(classIndex, arcIndex);
     graph->addEdge(arcIndex, elementIndex);
-    translateClasses(scArc, graph);
+    translateSemanticNeighborhood(scArc, graph);
   }
 }
 
-void GNNLearningManager::translateRoleRelations(ScAddr const & element, Graph * graph)
+void GNNLearningManager::translateElements(ScAddr const & elementsClass, Graph * graph)
 {
-  // TODO
+  int classIndex = resolveElementInTranslation(elementsClass, graph);
+  ScIterator3Ptr iterator3 = context->Iterator3(
+      elementsClass,
+      ScType::EdgeAccessConstPosPerm,
+      ScType::Unknown);
+  while (iterator3 -> Next())
+  {
+    ScAddr element = iterator3->Get(0);
+    int elementIndex = resolveElementInTranslation(element, graph);
+
+    ScAddr scArc = iterator3->Get(1);
+    int arcIndex = resolveElementInTranslation(scArc, graph);
+
+    graph->addEdge(classIndex, arcIndex);
+    graph->addEdge(arcIndex, classIndex);
+    translateSemanticNeighborhood(scArc, graph);
+  }
 }
 
-void GNNLearningManager::translateNoRoleRelations(ScAddr const & element, Graph * graph)
+void GNNLearningManager::translateNoRoleInRelations(ScAddr const & element, Graph * graph)
 {
-  // TODO
+  int elementIndex = resolveElementInTranslation(element, graph);
+  ScIterator3Ptr iterator3 = context->Iterator3(ScType::Unknown, ScType::EdgeDCommonConst, element);
+  while (iterator3->Next())
+  {
+    ScAddr relatedElement = iterator3->Get(0);
+    int relatedElementIndex = resolveElementInTranslation(relatedElement, graph);
+
+    ScAddr scArc = iterator3->Get(1);
+    int arcIndex = resolveElementInTranslation(scArc, graph);
+
+    graph->addEdge(relatedElementIndex, arcIndex);
+    graph->addEdge(arcIndex, elementIndex);
+    translateSemanticNeighborhood(scArc, graph);
+    translateSemanticNeighborhood(relatedElement, graph);
+  }
+}
+void GNNLearningManager::translateNoRoleOutRelations(ScAddr const & element, Graph * graph)
+{
+  int elementIndex = resolveElementInTranslation(element, graph);
+  ScIterator3Ptr iterator3 = context->Iterator3(element, ScType::EdgeDCommonConst, ScType::Unknown);
+  while (iterator3->Next())
+  {
+    ScAddr relatedElement = iterator3->Get(2);
+    int relatedElementIndex = resolveElementInTranslation(relatedElement, graph);
+
+    ScAddr scArc = iterator3->Get(1);
+    int arcIndex = resolveElementInTranslation(scArc, graph);
+
+    graph->addEdge(relatedElementIndex, arcIndex);
+    graph->addEdge(arcIndex, elementIndex);
+    translateSemanticNeighborhood(scArc, graph);
+    translateSemanticNeighborhood(relatedElement, graph);
+  }
 }
 }
