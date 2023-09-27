@@ -27,7 +27,7 @@ import {
     WrapperAgentAnswer,
     WrapperFooter,
 } from './styled';
-import { ReactComponent as SendIcon } from '@assets/icon/send-icon.svg';
+import { ReactComponent as SendIcon } from '@assets/icon/arrow-down-circle-svgrepo-com(1).svg';
 import { ReactComponent as ArrowIcon } from '@assets/icon/arrowBackToLastMessage.svg';
 import { Spinner } from '@components/Spinners/LoadSpinner';
 import { WaitingSpinner } from '@components/Spinners/WaitingSpinner';
@@ -42,8 +42,8 @@ interface IProps {
     isAgentAnswer?: boolean;
 }
 const textPlaceholder = {
-    en: 'What Nika can?',
-    ru: 'Что умеет Ника?',
+    en: 'Enter your message here...',
+    ru: 'Введите сообщение...',
 };
 const textLoad = {
     en: 'Load messages',
@@ -57,6 +57,7 @@ const textAgentAnswer = {
 export const Chat = forwardRef<HTMLDivElement, PropsWithChildren<IProps>>(
     ({ onSend, onFetching, isAgentAnswer, children, className, isLoading: isFetchingChatLoading }, chatRef) => {
         const [messageInput, setMessageInput] = useState('');
+        const [isDisabled, setIsDisabled] = useState(false);
 
         const [showArrow, setShowArrow] = useState(false);
         const [scrollHappened, setScrollHappened] = useState(false);
@@ -79,11 +80,7 @@ export const Chat = forwardRef<HTMLDivElement, PropsWithChildren<IProps>>(
         const throttleSendMessage = useMemo(() => throttle(sendMessage, 500), [sendMessage]);
 
         const onButtonClick = () => {
-            if (!messageInput) {
-                throttleSendMessage(textPlaceholder[hookLanguage]);
-            } else {
-                throttleSendMessage(messageInput);
-            }
+            throttleSendMessage(messageInput);
         };
 
         const scrollToLastMessage = () => mainRef.current?.lastElementChild?.scrollIntoView(false);
@@ -121,11 +118,8 @@ export const Chat = forwardRef<HTMLDivElement, PropsWithChildren<IProps>>(
 
         const onInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
             if (e.key === 'Enter') {
-                if (!messageInput) {
-                    throttleSendMessage(textPlaceholder[hookLanguage]);
-                } else {
-                    throttleSendMessage(messageInput);
-                }
+                if (!messageInput) return;
+                throttleSendMessage(messageInput);
             }
         };
         const hookLanguage = useLanguage();
@@ -173,6 +167,7 @@ export const Chat = forwardRef<HTMLDivElement, PropsWithChildren<IProps>>(
 
         useEffect(() => {
             const empty = !messageInput.trim();
+            setIsDisabled(empty);
             if (empty) setMessageInput('');
         }, [messageInput]);
 
@@ -212,7 +207,6 @@ export const Chat = forwardRef<HTMLDivElement, PropsWithChildren<IProps>>(
                     </WrapperAgentAnswer>
                     <WrapperFooter>
                         <FooterInput
-                            autoFocus={true}
                             ref={inputRef}
                             value={messageInput}
                             onChange={onInputChange}
@@ -220,7 +214,7 @@ export const Chat = forwardRef<HTMLDivElement, PropsWithChildren<IProps>>(
                             type="text"
                             placeholder={textPlaceholder[hookLanguage]}
                         />
-                        <FooterSend onClick={onButtonClick} type="submit">
+                        <FooterSend onClick={onButtonClick} type="submit" disabled={isDisabled}>
                             <WrapperSendIcon>
                                 <SendIcon />
                             </WrapperSendIcon>

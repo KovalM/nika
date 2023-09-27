@@ -11,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     display: flex;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Sans-serif', sans-serif;
     /* For firefox full height */
     height: 100%;
   }

@@ -56,13 +56,7 @@ export const Demo = () => {
                                     time={item.time}
                                     isLoading={item.isLoading}
                                 >
-                                    {typeof item.text === 'string' ? (
-                                        <div dangerouslySetInnerHTML={{__html: item.text}} />
-                    
-                                    ) : (
-                                    <div>{item.text}</div>
-                                    )}
-
+                                    {item.text}
                                 </Message>
                             </Fragment>
                         );

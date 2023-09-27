@@ -4,16 +4,16 @@ interface IProps {
     date: string;
 }
 const Wrapper = styled.div`
-    width: 140px;
+    width: 150px;
     margin: auto;
     margin-top: 8px;
     margin-bottom: 16px;
     padding: 6px 10px;
-    background: #8fc1cf;
+    background: #fffff;
     border-radius: 10px;
-    color: black;
+    color: #529c9b;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 16px;
 `;
 const DateInfo = styled.div`
