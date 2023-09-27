@@ -35,7 +35,7 @@ export const Main = styled.div`
     &::-webkit-scrollbar,
     &::-webkit-scrollbar-thumb {
         width: 12px;
-        border-radius: 13px;
+        border-radius: 25px;
         background-clip: padding-box;
         border: 4px solid transparent;
     }
@@ -58,12 +58,12 @@ export const WrapperSpinner = styled.div`
 `;
 export const FetchingSpinnerText = styled.div`
     margin-left: 6px;
-    font-family: 'Roboto';
+    font-family: 'Sans-serif';
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
     line-height: 14px;
-    color: #707070;
+    color: #d0f2f2;
 `;
 
 export const AnswerSpinnerText = styled.div`
@@ -84,7 +84,7 @@ export const ArrowWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 50%;
+    border-radius: 80%;
     background: #f9f3f0;
     z-index: 5;
     cursor: pointer;
@@ -119,28 +119,28 @@ export const FooterInput = styled.input`
     border: 2px solid rgba(100, 150, 150, 0.2);
     border-radius: 60px;
     outline: 0;
-    font-family: 'Roboto';
+    font-family: 'Sans-serif';
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 10px;
-    color: #000000;
+    color: #0b5252;
 `;
 export const FooterSend = styled.button`
     padding: 13px 12px 13px 6px;
     margin-left: 12px;
-    border-radius: 50%;
+    border-radius: 90%;
     box-shadow: 1.44px 1.44px 1.44px rgba(0, 0, 0, 0.25);
     border: 2px solid rgba(100, 150, 150, 0.2);
     cursor: pointer;
     &:hover {
-        background: #849299;
+        background: #038585;
     }
     &:hover path {
         stroke: white;
     }
     &:active {
-        box-shadow: 0px 0px 10px #627599;
+        box-shadow: 0px 0px 10px #038585;
     }
 `;
 export const WrapperSendIcon = styled.div`

@@ -7,7 +7,7 @@ export const WrapperMessage = styled.div<{ isLeft: boolean }>`
     margin: 0px 18px 8px 16px;
     padding: 8px 8px 8px 8px;
     align-self: ${(props) => (props.isLeft ? 'start' : 'end')};
-    background: ${(props) => (props.isLeft ? '#DFDBD0' : '#E2E9E7')};
+    background: ${(props) => (props.isLeft ? '#e4f0f0' : '#e4f0f0')};
     border-radius: 10px;
     word-break: break-word;
 
@@ -19,12 +19,12 @@ export const TextWrapper = styled.div`
     display: flex;
 `;
 export const Text = styled.div`
-    font-family: 'Roboto';
+    font-family: 'monospace';
     font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 21px;
-    color: #000000;
+    font-weight: 350;
+    font-size: 22px;
+    line-height: 22px;
+    color: #164a49;
     text-align: justify;
 `;
 export const Info = styled.div`
@@ -36,12 +36,12 @@ export const Info = styled.div`
 export const Time = styled.div`
     display: flex;
     align-items: center;
-    font-family: 'Roboto';
+    font-family: 'Sans-serif';
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
     line-height: 14px;
-    color: #696969;
+    color: #529c9b;
 `;
 export const WrapperLoadingIcon = styled.div`
     position: absolute;
@@ -66,7 +66,7 @@ export const WrapperRebootError = styled.div`
 export const TextReboot = styled.div`
     margin-left: 4px;
     padding-top: 2px;
-    font-family: 'Roboto';
+    font-family: 'Sans-serif';
     font-style: normal;
     font-weight: 400;
     font-size: 12px;

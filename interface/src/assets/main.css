@@ -6,7 +6,7 @@ body {
 
 div#content {
     flex: 1;
-    background: #fcfafa;
+    background: red;
     display: flex;
 }
 
@@ -19,8 +19,8 @@ div#content {
 }
 
 .ant-layout-content {
+    background: rgb(188, 221, 223) !important;
     flex: 0.95;
-    background: #fcfafa;
     color: #e6e6fa !important;
     display: flex;
 }
@@ -78,12 +78,12 @@ ul.nav li {
 }
 
 .nav a:hover {
-    color: #9A7469;
+    color: #9fd6d8;
     text-decoration: none;
 }
 
 .nav a.active {
-    border-bottom: 2px solid #9A7469;
+    border-bottom: 2px solid #37b3b1;
 }
 
 .main {
@@ -112,9 +112,9 @@ div .chat-widget {
     flex: 1;
     display: flex;
     flex-direction: column;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     box-shadow: 3px 3px 5px rgb(0 0 0 / 30%);
-    border: 1px solid #d2c9c9;
+    border: 1px solid #fffcfc;
     border-radius: 10px;
     height: 65%;
 }
@@ -147,7 +147,7 @@ div .chat-widget-content {
     display: flex;
     flex-direction: column;
     width: 100%;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     border-radius: 10px !important;
     height: 20%;
 }
@@ -229,7 +229,7 @@ div .system-answer-container {
 
 div .system-answer-text {
     color: black;
-    background-color: #A4B9AD;
+    background-color: #00af4c;
     border-radius: 10px;
     width: 300px;
     opacity: 0.9;
@@ -238,7 +238,7 @@ div .system-answer-text {
 
 div .user-message {
     color: black;
-    background-color: #B6B3BD;
+    background-color: #3e00cf;
     border-radius: 10px;
     width: 300px;
     opacity: 0.9;
@@ -249,12 +249,12 @@ div .user-message {
 
 a.text {
     text-decoration: none;
-    color: #c79e93;
+    color: #008080;
 }
 
 a.text.active,
 a.text:hover {
-    color: #9A7469;
+    color: #008080;
 }
 
 .audio-text {
@@ -300,7 +300,7 @@ div .user-message-input {
 }
 
 .user-message-input::placeholder {
-    color: #505050;
+    color: #f70000;
 }
 
 div .sendOutlinedIcon {
