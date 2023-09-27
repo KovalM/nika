@@ -21,3 +21,6 @@ __pycache__
 sc-server.log
 
 .DS_Store
+*/secret.txt
+*/data.db
+
