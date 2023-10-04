@@ -1,0 +1,11 @@
+concept_educational_places_class
+<- sc_node_class;
+=> nrel_inclusion:
+	concept_school_class;
+    concept_university_class;
+=> nrel_main_idtf:
+	[Учреждения образования] (* <- lang_ru;; *);
+	[Educational places] (* <- lang_en;; *);
+=> nrel_note:
+	[Место для получения знаний и образования] (* <- lang_ru;; *);
+	[A place to gain knowledge and education] (* <- lang_en;; *);;

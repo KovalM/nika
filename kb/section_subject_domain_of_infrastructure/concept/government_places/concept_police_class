@@ -1,0 +1,12 @@
+concept_police_class
+<- sc_node_class;
+<= nrel_inclusion:
+	concept_government_places_class;
+=> nrel_inclusion:
+	concept_subclass_identifier;
+=> nrel_main_idtf:
+	[Милиция] (* <- lang_ru;; *);
+	[Police] (* <- lang_en;; *);
+=> nrel_note:
+	[Государственный исполнительный орган] (* <- lang_ru;; *);
+	[State executive body] (* <- lang_en;; *);;

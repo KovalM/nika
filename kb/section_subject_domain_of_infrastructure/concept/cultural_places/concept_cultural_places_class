@@ -1,0 +1,12 @@
+concept_cultural_places_class
+<- sc_node_class;
+=> nrel_inclusion:
+	concept_theatre_class;
+    concept_restaurant_class;
+    concept_museum_class;
+=> nrel_main_idtf:
+	[Культурные места] (* <- lang_ru;; *);
+	[Cultural places] (* <- lang_en;; *);
+=> nrel_note:
+	[Места для культурного просвящения и отдыха] (* <- lang_ru;; *);
+	[Places for cultural education and recreation] (* <- lang_en;; *);;

@@ -1,0 +1,38 @@
+section_subject_domain_of_infrastructure
+    => nrel_main_idtf:
+        [Раздел. Предметная область инфраструктуры] (* <- lang_ru;; *);
+        [Section. Subject domain of infrastructure] (* <- lang_en;; *);
+<- sc_node_class;;
+
+
+section_subject_domain_of_infrastructure = [*
+    subject_domain_of_infrastructure
+        => nrel_main_idtf: 
+            [Предметная область инфраструктуры] (* <- lang_ru;; *);
+            [Subject domain of infrastructure] (* <- lang_en;; *);
+        <- subject_domain;
+        -> rrel_maximum_studied_object_class:
+            concept_cultural_places_class;
+            concept_shopping_places_class;
+            concept_healthcare_places_class;
+            concept_government_places_class;
+            concept_educational_places_class;
+        -> rrel_explored_relation:
+            nrel_address;
+            nrel_map_link;
+            nrel_cords;
+        -> rrel_not_maximum_studied_object_class:
+            concept_theatre_class;
+            concept_restaurant_class;
+            concept_museum_class;
+            concept_shop_class;
+            concept_shopping_center_class;
+            concept_market_class;
+            concept_hospital_class;
+            concept_farmacy_class;
+            concept_bank_class;
+            concept_post_class;
+            concept_police_class;
+            concept_school_class;
+            concept_university_class;;
+*];;

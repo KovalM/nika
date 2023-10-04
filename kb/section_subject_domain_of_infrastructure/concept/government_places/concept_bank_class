@@ -1,0 +1,12 @@
+concept_bank_class
+<- sc_node_class;
+<= nrel_inclusion:
+	concept_government_places_class;
+=> nrel_inclusion:
+	concept_subclass_identifier;
+=> nrel_main_idtf:
+	[Банк] (* <- lang_ru;; *);
+	[Bank] (* <- lang_en;; *);
+=> nrel_note:
+	[Место где люди хранят деньги] (* <- lang_ru;; *);
+	[A place where people keep money] (* <- lang_en;; *);;

@@ -1,0 +1,12 @@
+concept_university_class
+<- sc_node_class;
+<= nrel_inclusion:
+	concept_educational_places_class;
+=> nrel_inclusion:
+	concept_subclass_identifier;
+=> nrel_main_idtf:
+	[Университет] (* <- lang_ru;; *);
+	[University] (* <- lang_en;; *);
+=> nrel_note:
+	[Место в котором можно получить знания после школы] (* <- lang_ru;; *);
+	[A place where you get knowledge after school] (* <- lang_en;; *);;

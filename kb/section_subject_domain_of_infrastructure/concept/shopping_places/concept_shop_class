@@ -1,0 +1,12 @@
+concept_shop_class
+<- sc_node_class;
+<= nrel_inclusion:
+	concept_shopping_places_class;
+=> nrel_inclusion:
+	concept_subclass_identifier;
+=> nrel_main_idtf:
+	[Магазин] (* <- lang_ru;; *);
+	[Shop] (* <- lang_en;; *);
+=> nrel_note:
+	[Место где можно купить еду, одежду или другую продукцию в зависимости от типа магазина] (* <- lang_ru;; *);
+	[A place where you can buy food, clothes or other products depanding on the shop's type] (* <- lang_en;; *);;
