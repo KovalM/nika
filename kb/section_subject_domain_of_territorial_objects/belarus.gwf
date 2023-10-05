@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GWF version="2.0">
     <staticSector>
-        <node type="node/const/perm/general" idtf="" shapeColor="0" id="94585613158464" parent="0" x="1330" y="205" haveBus="false" idtf_pos="0">
+        <node type="node/const/perm/general" idtf="" shapeColor="193" id="94585613158464" parent="0" x="1330" y="205" haveBus="false" idtf_pos="0">
             <content type="1" mime_type="content/term" content_visibility="true" file_name=""><![CDATA[Европейское государство, официальное название - Республика Беларусь]]></content>
         </node>
         <node type="node/const/perm/general" idtf="" shapeColor="0" id="94585617290224" parent="0" x="450" y="180" haveBus="false" idtf_pos="0">
-            <content type="1" mime_type="content/term" content_visibility="true" file_name=""><![CDATA[Is the greatest country in the world]]></content>
+            <content type="1" mime_type="content/term" content_visibility="true" file_name=""><![CDATA[Is actually the greatest country in the whole world]]></content>
         </node>
         <node type="node/const/perm/general" idtf="" shapeColor="0" id="94585613792640" parent="0" x="1030" y="430" haveBus="false" idtf_pos="0">
             <content type="1" mime_type="content/term" content_visibility="true" file_name=""><![CDATA[Беларусь]]></content>

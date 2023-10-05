@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GWF version="2.0">
     <staticSector>
+        <node type="node/const/perm/general" idtf="" shapeColor="0" id="94585621007648" parent="0" x="150" y="405" haveBus="false" idtf_pos="0">
+            <content type="1" mime_type="content/term" content_visibility="true" file_name=""><![CDATA[Grodno region]]></content>
+        </node>
         <node type="node/const/perm/general" idtf="" shapeColor="0" id="94585612979296" parent="0" x="885" y="405" haveBus="false" idtf_pos="0">
             <content type="1" mime_type="content/term" content_visibility="true" file_name=""><![CDATA[Гродненская область]]></content>
         </node>
@@ -72,9 +75,6 @@
         </node>
         <node type="node/const/perm/tuple" idtf="" shapeColor="0" id="94585621012304" parent="0" x="375" y="510" haveBus="false" idtf_pos="0">
             <content type="0" mime_type="" content_visibility="false" file_name=""/>
-        </node>
-        <node type="node/const/perm/general" idtf="" shapeColor="0" id="94585621007648" parent="0" x="150" y="405" haveBus="false" idtf_pos="0">
-            <content type="1" mime_type="content/term" content_visibility="true" file_name=""><![CDATA[Grodno region]]></content>
         </node>
         <node type="node/const/perm/group" idtf="concept_region" shapeColor="0" id="94585620990688" parent="0" left="0" top="0" right="122.531" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman [Arial]" font_size="10" x="375" y="300" haveBus="false" idtf_pos="0">
             <content type="0" mime_type="" content_visibility="false" file_name=""/>
