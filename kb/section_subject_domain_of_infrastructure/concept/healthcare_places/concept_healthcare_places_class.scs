@@ -1,5 +1,7 @@
 concept_healthcare_places_class
 <- sc_node_class;
+<= nrel_inclusion:
+	concept_infrastructure_class;
 => nrel_inclusion:
 	concept_hospital_class;
     concept_farmacy_class;
@@ -9,3 +11,4 @@ concept_healthcare_places_class
 => nrel_note:
 	[Учреждение здравоохранения это место в которое Вы можете обратится с плохим самочувствием] (* <- lang_ru;; *);
 	[Healthcare place is a place you can go to if you feel unwell] (* <- lang_en;; *);;
+	

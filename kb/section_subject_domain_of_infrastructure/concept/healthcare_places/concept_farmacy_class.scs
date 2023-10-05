@@ -10,3 +10,4 @@ concept_farmacy_class
 => nrel_note:
 	[Аптека это место где можно купить лекарства] (* <- lang_ru;; *);
 	[Farmacy is a place where you can buy some medicine] (* <- lang_en;; *);;
+	

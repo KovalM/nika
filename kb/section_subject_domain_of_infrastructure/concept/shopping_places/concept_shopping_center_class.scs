@@ -10,3 +10,4 @@ concept_shopping_center_class
 => nrel_note:
 	[Торговый центр это здание, в котором находится много разных магазинов] (* <- lang_ru;; *);
 	[Shopping center is a building containing many different shops] (* <- lang_en;; *);;
+	

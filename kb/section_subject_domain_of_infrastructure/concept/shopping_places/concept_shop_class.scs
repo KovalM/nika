@@ -10,3 +10,4 @@ concept_shop_class
 => nrel_note:
 	[Магазин это место где можно купить еду, одежду или другую продукцию в зависимости от типа магазина] (* <- lang_ru;; *);
 	[Shop is a place where you can buy food, clothes or other products depanding on the shop's type] (* <- lang_en;; *);;
+	

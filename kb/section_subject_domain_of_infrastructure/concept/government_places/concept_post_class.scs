@@ -10,3 +10,4 @@ concept_post_class
 => nrel_note:
 	[Почта это место где можно отправить или получить письмо или посылку] (* <- lang_ru;; *);
 	[Post is a place where you can send or receive a letter or a parcel] (* <- lang_en;; *);;
+	

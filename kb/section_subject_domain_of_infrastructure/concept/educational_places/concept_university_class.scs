@@ -10,3 +10,4 @@ concept_university_class
 => nrel_note:
 	[Университет это место в котором можно получить знания после школы] (* <- lang_ru;; *);
 	[University is a place where you get knowledge after school] (* <- lang_en;; *);;
+	

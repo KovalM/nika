@@ -10,3 +10,4 @@ concept_hospital_class
 => nrel_note:
 	[Больница это место где лечат людей] (* <- lang_ru;; *);
 	[Hospital is a place where people are treated] (* <- lang_en;; *);;
+	

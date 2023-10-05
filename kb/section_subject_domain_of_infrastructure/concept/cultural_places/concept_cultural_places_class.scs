@@ -1,5 +1,7 @@
 concept_cultural_places_class
 <- sc_node_class;
+<= nrel_inclusion:
+	concept_infrastructure_class;
 => nrel_inclusion:
 	concept_theatre_class;
     concept_restaurant_class;
