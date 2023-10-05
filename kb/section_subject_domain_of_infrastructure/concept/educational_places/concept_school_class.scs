@@ -1,0 +1,12 @@
+concept_school_class
+<- sc_node_class;
+<= nrel_inclusion:
+	concept_educational_places_class;
+=> nrel_inclusion:
+	concept_subclass_identifier;
+=> nrel_main_idtf:
+	[школа] (* <- lang_ru;; *);
+	[school] (* <- lang_en;; *);
+=> nrel_note:
+	[Школа это место в котором можно получить знания детям] (* <- lang_ru;; *);
+	[School is a place where you get knowledge as a child] (* <- lang_en;; *);;

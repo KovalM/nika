@@ -1,0 +1,12 @@
+concept_theatre_class
+<- sc_node_class;
+<= nrel_inclusion:
+	concept_cultural_places_class;
+=> nrel_inclusion:
+	concept_subclass_identifier;
+=> nrel_main_idtf:
+	[театр] (* <- lang_ru;; *);
+	[theatre] (* <- lang_en;; *);
+=> nrel_note:
+	[Театр это место где можно смотреть спектакли] (* <- lang_ru;; *);
+	[Theatre is a place to watch performances] (* <- lang_en;; *);;

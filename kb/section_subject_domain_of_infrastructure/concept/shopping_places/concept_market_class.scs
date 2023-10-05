@@ -1,0 +1,12 @@
+concept_market_class
+<- sc_node_class;
+<= nrel_inclusion:
+	concept_shopping_places_class;
+=> nrel_inclusion:
+	concept_subclass_identifier;
+=> nrel_main_idtf:
+	[рынок] (* <- lang_ru;; *);
+	[market] (* <- lang_en;; *);
+=> nrel_note:
+	[Рынок это место, в котором люди продают свои товары или покупают другие] (* <- lang_ru;; *);
+	[Market is a place where people sell their goods or buy others] (* <- lang_en;; *);;
