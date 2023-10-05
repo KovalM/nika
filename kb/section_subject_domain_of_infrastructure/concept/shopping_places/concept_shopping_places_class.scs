@@ -1,7 +1,5 @@
 concept_shopping_places_class
 <- sc_node_class;
-<= nrel_inclusion:
-	concept_infrastructure_class;
 => nrel_inclusion:
 	concept_shop_class;
     concept_shopping_center_class;
@@ -12,4 +10,3 @@ concept_shopping_places_class
 => nrel_note:
 	[Торговое место это место для покупки-продажи различной продукции] (* <- lang_ru;; *);
 	[Shopping place is a place for buying and selling various products] (* <- lang_en;; *);;
-	

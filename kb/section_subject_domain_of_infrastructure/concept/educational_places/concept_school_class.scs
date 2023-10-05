@@ -10,4 +10,3 @@ concept_school_class
 => nrel_note:
 	[Школа это место в котором можно получить знания детям] (* <- lang_ru;; *);
 	[School is a place where you get knowledge as a child] (* <- lang_en;; *);;
-	

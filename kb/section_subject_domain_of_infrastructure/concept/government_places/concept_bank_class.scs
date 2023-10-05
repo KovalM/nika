@@ -10,4 +10,3 @@ concept_bank_class
 => nrel_note:
 	[Банк это место где люди хранят деньги] (* <- lang_ru;; *);
 	[Bank is a place where people keep money] (* <- lang_en;; *);;
-	

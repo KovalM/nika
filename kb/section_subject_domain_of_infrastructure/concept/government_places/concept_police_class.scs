@@ -10,4 +10,3 @@ concept_police_class
 => nrel_note:
 	[Милиция это государственный исполнительный орган] (* <- lang_ru;; *);
 	[Police is a state executive body] (* <- lang_en;; *);;
-	

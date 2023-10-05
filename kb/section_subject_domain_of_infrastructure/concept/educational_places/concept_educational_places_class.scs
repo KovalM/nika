@@ -1,7 +1,5 @@
 concept_educational_places_class
 <- sc_node_class;
-<= nrel_inclusion:
-	concept_infrastructure_class;
 => nrel_inclusion:
 	concept_school_class;
     concept_university_class;
@@ -11,4 +9,3 @@ concept_educational_places_class
 => nrel_note:
 	[Учреждение образования это место для получения знаний и образования] (* <- lang_ru;; *);
 	[Educational place is a place to gain knowledge and education] (* <- lang_en;; *);;
-	
