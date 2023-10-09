@@ -1,0 +1,10 @@
+concept_restaurant_class
+<- sc_node_class;
+=> nrel_inclusion:
+	concept_subclass_identifier;
+=> nrel_main_idtf:
+	[ресторан] (* <- lang_ru;; *);
+	[restaurant] (* <- lang_en;; *);
+=> nrel_note:
+	[Ресторан это место где можно вкусно покушать] (* <- lang_ru;; *);
+	[Restaurant is a place where you can eat good food] (* <- lang_en;; *);;

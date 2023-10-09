@@ -1,0 +1,10 @@
+concept_post_class
+<- sc_node_class;
+=> nrel_inclusion:
+	concept_subclass_identifier;
+=> nrel_main_idtf:
+	[почта] (* <- lang_ru;; *);
+	[post] (* <- lang_en;; *);
+=> nrel_note:
+	[Почта это место где можно отправить или получить письмо или посылку] (* <- lang_ru;; *);
+	[Post is a place where you can send or receive a letter or a parcel] (* <- lang_en;; *);;

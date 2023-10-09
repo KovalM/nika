@@ -1,0 +1,14 @@
+concept_infrastructure_class
+<- sc_node_class;
+=> nrel_inclusion:
+	concept_cultural_places_class;
+	concept_educational_places_class;
+	concept_government_places_class;
+	concept_healthcare_places_class;
+	concept_shopping_places_class;
+=> nrel_main_idtf:
+	[инфраструктура] (* <- lang_ru;; *);
+	[infrastructure] (* <- lang_en;; *);
+=> nrel_note:
+	[Инфраструктура это комплекс основных сооружений, которые поддерживают повседневную жизнь и экономическую активность в обществе] (* <- lang_ru;; *);
+	[Infrastructure is the complex of basic structures that support daily life and economic activity in a society] (* <- lang_en;; *);;

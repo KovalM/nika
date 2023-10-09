@@ -1,0 +1,38 @@
+nrel_map_link
+<- sc_node_norole_relation;
+<- relation;
+<- binary_relation;
+<- oriented_relation;
+<- antireflexive_relation;
+<- asymmetric_relation;
+<- antitransitive_relation;
+=> nrel_main_idtf:
+	[ссылка на карту*] (* <- lang_ru;; *);
+=> nrel_main_idtf:
+	[map link] (* <- lang_en;; *);
+=> nrel_first_domain: concept_infrastructure_class;
+=> nrel_second_domain: sc_link;
+=> nrel_definitional_domain:
+   ...
+   (*
+        <= nrel_combination:
+        	{
+            	concept_infrastructure_class;
+            	sc_link
+        	};;
+   *);
+<- rrel_key_sc_element:
+   ...
+   (*
+      => nrel_main_idtf:
+          [Опр. (ссылка на карту*)]
+          (* <- lang_ru;; *);;
+      <- definition;;
+      <= nrel_sc_text_translation:
+           ...
+           (*
+              -> rrel_example:
+               [ссылка на карту с геопозицией объекта]
+               (* <- lang_ru;; *);;
+           *);;
+  *);;

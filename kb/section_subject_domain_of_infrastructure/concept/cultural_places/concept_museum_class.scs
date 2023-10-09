@@ -1,0 +1,11 @@
+concept_museum_class
+<- sc_node_class;
+=> nrel_inclusion:
+	concept_subclass_identifier;
+=> nrel_main_idtf:
+	[музей] (* <- lang_ru;; *);
+	[museum] (* <- lang_en;; *);
+=> nrel_note:
+	[Музей это место где Вы можете наблюдать произведения искусства или истрические находки] (* <- lang_ru;; *);
+	[Museum is a place where you can watch works of art or historical finds] (* <- lang_en;; *);;
+	

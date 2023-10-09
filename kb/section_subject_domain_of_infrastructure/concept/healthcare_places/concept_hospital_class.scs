@@ -1,0 +1,10 @@
+concept_hospital_class
+<- sc_node_class;
+=> nrel_inclusion:
+	concept_subclass_identifier;
+=> nrel_main_idtf:
+	[больница] (* <- lang_ru;; *);
+	[hospital] (* <- lang_en;; *);
+=> nrel_note:
+	[Больница это место где лечат людей] (* <- lang_ru;; *);
+	[Hospital is a place where people are treated] (* <- lang_en;; *);;

@@ -1,0 +1,12 @@
+concept_government_places_class
+<- sc_node_class;
+=> nrel_inclusion:
+	concept_bank_class;
+    concept_post_class;
+    concept_police_class;
+=> nrel_main_idtf:
+	[государственное учреждение] (* <- lang_ru;; *);
+	[governmental place] (* <- lang_en;; *);
+=> nrel_note:
+	[Государственное учреждение это ...] (* <- lang_ru;; *);
+	[Governmental place is ...] (* <- lang_en;; *);;
