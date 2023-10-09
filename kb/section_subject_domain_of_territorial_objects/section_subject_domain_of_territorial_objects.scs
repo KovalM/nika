@@ -17,9 +17,9 @@ section_subject_domain_of_territorial_objects = [*
         concept_district;
         concept_street;
         concept_region;
-        subdividing;
+        concept_council
     -> rrel_explored_relation:
-        nrel_subdividing;;
+        nrel_adress;;
 *];;
 section_subject_domain_of_territorial_objects <= nrel_section_decomposition:
 	{
