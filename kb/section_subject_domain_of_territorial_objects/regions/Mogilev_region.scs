@@ -1,0 +1,9 @@
+Mogilev_region => nrel_city_of_region: ...
+(*
+<- sc_node_tuple;;
+->Mogilev;;
+->Bobryisk;;
+->Krichev;;
+->Orsha;;
+*);;
+
