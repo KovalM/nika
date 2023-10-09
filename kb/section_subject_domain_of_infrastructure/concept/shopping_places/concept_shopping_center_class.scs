@@ -1,7 +1,5 @@
 concept_shopping_center_class
 <- sc_node_class;
-<= nrel_inclusion:
-	concept_shopping_places_class;
 => nrel_inclusion:
 	concept_subclass_identifier;
 => nrel_main_idtf:
