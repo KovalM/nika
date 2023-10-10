@@ -13,7 +13,7 @@ section_subject_domain_of_territorial_objects = [*
     -> rrel_maximum_studied_object_class: concept_territorial_objects;
     -> rrel_not_maximum_studied_object_class:
         concept_country;
-        concept_district;
+        concept_city;
         concept_region;;
     -> rrel_explored_relation:
         nrel_city_of_region;;
