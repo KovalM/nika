@@ -1,0 +1,8 @@
+concept_no_ramp_class
+<- sc_node_class;
+=> nrel_main_idtf:
+	[место, не оборудованное пандусом] (* <- lang_ru;; *);
+	[place not equipped with a ramp] (* <- lang_en;; *);
+=> nrel_note:
+	[Место, не оборудованное пандусом это место, недоступное для людей с нарушением опорно-двигательного аппарата] (* <- lang_ru;; *);
+	[A place not equipped with a ramp is a place, which is not accessible to people with mobility impairments] (* <- lang_en;; *);;

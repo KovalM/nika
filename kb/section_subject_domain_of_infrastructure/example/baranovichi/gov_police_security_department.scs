@@ -1,0 +1,14 @@
+gov_police_security_department
+<- concept_police_class;
+=> nrel_main_idtf:
+	[Baranovichi Department of the Security Department of the Ministry of Internal Affairs of the Republic of Belarus] (*<- lang_en;; *);
+	[Барановичский отдел Департамента охраны МВД Республики Беларусь] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Lenina, 10A] (*<- lang_en;; *);
+	[ул. Ленина, 10А] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.132033, 26.024499] (*<- lang_en;; *);
+	[53.132033, 26.024499] (*<- lang_ru;; *);
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDa4AJon];
+=> nrel_geolocation: Baranovichi;;

@@ -1,0 +1,15 @@
+cult_restaurant_krokus
+<- concept_restaurant_class;
+=> nrel_main_idtf:
+	[Crocus] (*<- lang_en;; *);
+	[Крокус] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Komsomolskaya, 61] (*<- lang_en;; *);
+	[ул. Комсомольская, 61] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.126051, 25.998788] (*<- lang_en;; *);
+	[53.126051, 25.998788] (*<- lang_ru;; *);
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaYvLND];
+=> nrel_geolocation: Baranovichi;
+<- concept_ramp_class;;

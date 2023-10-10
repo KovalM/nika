@@ -1,0 +1,8 @@
+concept_ramp_class
+<- sc_node_class;
+=> nrel_main_idtf:
+	[место, оборудованное пандусом] (* <- lang_ru;; *);
+	[place equipped with a ramp] (* <- lang_en;; *);
+=> nrel_note:
+	[Место, оборудованное пандусом это место, доступное для людей с нарушением опорно-двигательного аппарата] (* <- lang_ru;; *);
+	[A place equipped with a ramp is a place, which is accessible to people with mobility impairments] (* <- lang_en;; *);;

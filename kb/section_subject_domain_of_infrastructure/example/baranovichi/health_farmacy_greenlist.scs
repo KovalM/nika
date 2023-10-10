@@ -1,0 +1,15 @@
+health_farmacy_greenlist
+<- concept_farmacy_class;
+=> nrel_main_idtf:
+	[Green leaf] (*<- lang_en;; *);
+	[Зеленый лист] (*<- lang_ru;; *);
+=> nrel_address:
+	[ave. Sovetsky, 35] (*<- lang_en;; *);
+	[просп. Советский, 35] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.144213, 26.007019] (*<- lang_en;; *);
+	[53.144213, 26.007019] (*<- lang_ru;; *);
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDa4MHNe];
+=> nrel_geolocation: Baranovichi;
+<- concept_ramp_class;;

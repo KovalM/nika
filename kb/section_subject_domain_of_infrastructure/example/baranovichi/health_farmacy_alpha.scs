@@ -1,0 +1,15 @@
+health_farmacy_alpha
+<- concept_farmacy_class;
+=> nrel_main_idtf:
+	[AlfaPharmacy] (*<- lang_en;; *);
+	[АльфаАптека] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Domeyko, 1] (*<- lang_en;; *);
+	[ул. Домейко, 1] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.111310, 25.985000] (*<- lang_en;; *);
+	[53.111310, 25.985000] (*<- lang_ru;; *);
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDa4MX-B];
+=> nrel_geolocation: Baranovichi;
+<- concept_no_ramp_class;;

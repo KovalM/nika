@@ -1,0 +1,15 @@
+edu_school_gymn1
+<- concept_school_class;
+=> nrel_main_idtf:
+	[Gymnasium No. 1, Baranovichi] (*<- lang_en;; *);
+	[ГУО Гимназия № 1 г. Барановичи] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Parkovaya, 45] (*<- lang_en;; *);
+	[ул. Парковая, 45] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.142093, 26.073445] (*<- lang_en;; *);
+	[53.142093, 26.073445] (*<- lang_ru;; *);
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaYz0-Q];
+=> nrel_geolocation: Baranovichi;
+<- concept_no_ramp_class;;

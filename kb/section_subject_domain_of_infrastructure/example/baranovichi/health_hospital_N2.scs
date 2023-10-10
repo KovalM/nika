@@ -1,0 +1,14 @@
+health_hospital_N2
+<- concept_hospital_class;
+=> nrel_main_idtf:
+	[Baranovichi City Hospital No.2] (*<- lang_en;; *);
+	[Барановичская городская больница №2] (*<- lang_ru;; *);
+=> nrel_address:
+	[r. Slonimskoye, 16/1] (*<- lang_en;; *);
+	[ш. Слонимское, 16/1] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.110606, 25.950779] (*<- lang_en;; *);
+	[53.110606, 25.950779] (*<- lang_ru;; *);
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDa4QJIO];
+=> nrel_geolocation: Baranovichi;;

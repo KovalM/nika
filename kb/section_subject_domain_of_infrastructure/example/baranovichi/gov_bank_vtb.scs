@@ -1,0 +1,15 @@
+gov_bank_vtb
+<- concept_bank_class;
+=> nrel_main_idtf:
+	[VTB Bank] (*<- lang_en;; *);
+	[Банк ВТБ] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Sovetskaya, 88] (*<- lang_en;; *);
+	[ул. Советская, 88] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.130779, 26.017461] (*<- lang_en;; *);
+	[53.130779, 26.017461] (*<- lang_ru;; *);
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaY7GZX];
+=> nrel_geolocation: Baranovichi;
+<- concept_ramp_class;;

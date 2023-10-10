@@ -1,0 +1,14 @@
+cult_theatre_october
+<- concept_theatre_class;
+=> nrel_main_idtf:
+	[October] (*<- lang_en;; *);
+	[Октябрь] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Lenina, 2] (*<- lang_en;; *);
+	[ул. Ленина, 2] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.132216, 26.019980] (*<- lang_en;; *);
+	[53.132216, 26.019980] (*<- lang_ru;; *);
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaYzZzs];
+=> nrel_geolocation: Baranovichi;;

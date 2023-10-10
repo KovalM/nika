@@ -1,0 +1,15 @@
+shop_shop_almi
+<- concept_shop_class;
+=> nrel_main_idtf:
+	[Almy] (*<- lang_en;; *);
+	[Алми] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. 50 years of the BSSR, 86] (*<- lang_en;; *);
+	[ул. 50 лет БССР, 86] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.109177, 25.998474] (*<- lang_en;; *);
+	[53.109177, 25.998474] (*<- lang_ru;; *);
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDa4QD5R];
+=> nrel_geolocation: Baranovichi;
+<- concept_no_ramp_class;;
