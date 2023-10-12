@@ -10,7 +10,8 @@ section_subject_domain_of_territorial_objects = [*
         [Предметная область территориальных объектов](* <- lang_ru;; *);
         [Subject domain of territorial objects](* <- lang_en;; *);
     <- subject_domain;
-    -> rrel_maximum_studied_object_class: concept_territorial_objects;
+    -> rrel_maximum_studied_object_class: 
+        concept_territorial_object;
     -> rrel_not_maximum_studied_object_class:
         concept_country;
         concept_city;
