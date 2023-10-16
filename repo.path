@@ -2,8 +2,10 @@
 !kb/ims.ostis.kb/ui/ui_start_sc_element.scs
 !kb/ims.ostis.kb/ims/knowledge_base_IMS.scs
 
-# Do not build examples
+# Do not build examples and something else
 !kb/pattern
+!kb/extra
+!kb/section_subject_domain_of_people_with_disabilities
 
 #components
 kb
