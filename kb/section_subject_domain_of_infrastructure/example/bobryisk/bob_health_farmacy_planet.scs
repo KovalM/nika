@@ -1,0 +1,14 @@
+bob_health_farmacy_planet
+<- concept_farmacy_class;
+=> nrel_main_idtf:
+	[Planet Health] (*<- lang_en;; *);
+	[Планета Здоровья] (*<- lang_ru;; *);
+=> nrel_address:
+	[ave. Stroiteley, 58] (*<- lang_en;; *);
+	[просп. Строителей, 58] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.195053, 29.223948];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaqF8o0];
+=> nrel_geolocation: Bobryisk;
+<- concept_no_ramp_class;;

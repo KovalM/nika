@@ -1,0 +1,13 @@
+shop_market_alekseevski
+<- concept_market_class;
+=> nrel_main_idtf:
+	[Alekseevsky] (*<- lang_en;; *);
+	[Алексеевский] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Telmana, 175] (*<- lang_en;; *);
+	[ул. Тельмана, 175] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.130833, 26.075183];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDa4Q6yB];
+=> nrel_geolocation: Baranovichi;;

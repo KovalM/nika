@@ -1,0 +1,14 @@
+bob_shop_center_karusel
+<- concept_shopping_center_class;
+=> nrel_main_idtf:
+	[Carousel] (*<- lang_en;; *);
+	[Карусель] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Minskaya, 135] (*<- lang_en;; *);
+	[ул. Минская, 135] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.169740, 29.203417];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaRNHMc];
+=> nrel_geolocation: Bobryisk;
+<- concept_ramp_class;;

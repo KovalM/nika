@@ -1,7 +1,5 @@
 concept_restaurant_class
 <- sc_node_class;
-=> nrel_inclusion:
-	concept_subclass_identifier;
 => nrel_main_idtf:
 	[ресторан] (* <- lang_ru;; *);
 	[restaurant] (* <- lang_en;; *);

@@ -1,0 +1,13 @@
+bob_health_hospital_bhd
+<- concept_hospital_class;
+=> nrel_main_idtf:
+	[Bobruisk City Emergency Hospital named after. V. O. Morzona] (*<- lang_en;; *);
+	[Бобруйская городская больница скорой медицинской помощи им. В. О. Морзона] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Proletarskaya, 50] (*<- lang_en;; *);
+	[ул. Пролетарская, 50] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.144441, 29.216204];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaqJMze];
+=> nrel_geolocation: Bobryisk;;

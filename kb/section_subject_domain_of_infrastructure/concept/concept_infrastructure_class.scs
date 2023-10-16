@@ -6,6 +6,13 @@ concept_infrastructure_class
 	concept_government_places_class;
 	concept_healthcare_places_class;
 	concept_shopping_places_class;
+=> nrel_subdividing: ...
+	(*
+		<- sc_node_tuple;;
+		<- subdividing;;
+		-> concept_ramp_class;;
+		-> concept_no_ramp_class;;
+	*);
 => nrel_main_idtf:
 	[инфраструктура] (* <- lang_ru;; *);
 	[infrastructure] (* <- lang_en;; *);

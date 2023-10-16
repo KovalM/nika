@@ -1,0 +1,14 @@
+bob_edu_school_N4
+<- concept_school_class;
+=> nrel_main_idtf:
+	[Secondary school No. 4 of Bobruisk] (*<- lang_en;; *);
+	[Средняя школа № 4 города Бобруйска] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Karl Marx, 132] (*<- lang_en;; *);
+	[ул. Карла Маркса, 132] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.132464, 29.213459];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaquN0z];
+=> nrel_geolocation: Bobryisk;
+<- concept_ramp_class;;

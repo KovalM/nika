@@ -1,0 +1,13 @@
+cult_muesum_local_hist
+<- concept_museum_class;
+=> nrel_main_idtf:
+	[Museum of Local History] (*<- lang_en;; *);
+	[Краеведческий музей] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Socialist, 56] (*<- lang_en;; *);
+	[ул. Социалистическая, 56] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.135292, 29.227458];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaqm65-];
+=> nrel_geolocation: Bobryisk;;

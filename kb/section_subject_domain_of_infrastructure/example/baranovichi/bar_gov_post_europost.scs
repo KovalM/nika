@@ -1,0 +1,13 @@
+gov_post_europost
+<- concept_post_class;
+=> nrel_main_idtf:
+	[Europost] (*<- lang_en;; *);
+	[Европочта] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Kommunisticheskaya, 5] (*<- lang_en;; *);
+	[ул. Коммунистическая, 5] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.117708, 26.025568];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDa4MEML];
+=> nrel_geolocation: Baranovichi;;

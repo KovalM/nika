@@ -1,0 +1,13 @@
+bob_shop_market_zapadniy
+<- concept_market_class;
+=> nrel_main_idtf:
+	[West] (*<- lang_en;; *);
+	[Западный] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Rokossovsky, 9] (*<- lang_en;; *);
+	[ул. Рокоссовского, 9] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.165573, 29.183083];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaRNZZ8];
+=> nrel_geolocation: Bobryisk;;

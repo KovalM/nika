@@ -1,0 +1,13 @@
+bob_gov_police_ovd
+<- concept_police_class;
+=> nrel_main_idtf:
+	[Department of Internal Affairs of the Leninsky district of Bobruisk] (*<- lang_en;; *);
+	[ОВД Ленинского района г. Бобруйска] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Gogolya, 18] (*<- lang_en;; *);
+	[ул. Гоголя, 18] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.142812, 29.229132];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaqBDMX];
+=> nrel_geolocation: Bobryisk;;

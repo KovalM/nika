@@ -1,0 +1,14 @@
+shop_center_rainbow
+<- concept_shopping_center_class;
+=> nrel_main_idtf:
+	[Rainbow] (*<- lang_en;; *);
+	[Радужный] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Telmana, 64] (*<- lang_en;; *);
+	[ул. Тельмана, 64] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.131914, 26.055913];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDa4QP2Z];
+=> nrel_geolocation: Baranovichi;
+<- concept_ramp_class;;

@@ -1,0 +1,14 @@
+bob_shop_market_severniy
+<- concept_market_class;
+=> nrel_main_idtf:
+	[Northern] (*<- lang_en;; *);
+	[Северный] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Dnieper Flotilla, 11/497] (*<- lang_en;; *);
+	[ул. Днепровской Флотилии, 11/497] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.190164, 29.222005];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaRNAZm];
+=> nrel_geolocation: Bobryisk;
+<- concept_no_ramp_class;;

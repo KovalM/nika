@@ -1,0 +1,14 @@
+bob_gov_police_security_department
+<- concept_police_class;
+=> nrel_main_idtf:
+	[Security Department of the Ministry of Internal Affairs, Bobruisk department] (*<- lang_en;; *);
+	[Департамент охраны МВД, Бобруйский отдел] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Gogolya, 38] (*<- lang_en;; *);
+	[ул. Гоголя, 38] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.144475, 29.222141];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaqBP9q];
+=> nrel_geolocation: Bobryisk;
+<- concept_ramp_class;;
