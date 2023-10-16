@@ -1,7 +1,5 @@
 concept_post_class
 <- sc_node_class;
-=> nrel_inclusion:
-	concept_subclass_identifier;
 => nrel_main_idtf:
 	[почта] (* <- lang_ru;; *);
 	[post] (* <- lang_en;; *);

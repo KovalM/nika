@@ -1,0 +1,14 @@
+cult_restaurant_etopizza
+<- concept_restaurant_class;
+=> nrel_main_idtf:
+	[Etopizza] (*<- lang_en;; *);
+	[Этопицца] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Kirova, 43] (*<- lang_en;; *);
+	[ул. Кирова, 43] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.140663, 26.044980];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaYzMM5];
+=> nrel_geolocation: Baranovichi;
+<- concept_no_ramp_class;;

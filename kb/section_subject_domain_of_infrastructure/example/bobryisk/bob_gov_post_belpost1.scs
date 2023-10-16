@@ -1,0 +1,13 @@
+bob_gov_post_belpost1
+<- concept_post_class;
+=> nrel_main_idtf:
+	[Belposhta] (*<- lang_en;; *);
+	[Белпочта] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Glinki, 42A] (*<- lang_en;; *);
+	[ул. Глинки, 42А] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.180760, 29.233239];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaqFB4i];
+=> nrel_geolocation: Bobryisk;;

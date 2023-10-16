@@ -1,0 +1,13 @@
+gov_post_belpost
+<- concept_post_class;
+=> nrel_main_idtf:
+	[Belposhta] (*<- lang_en;; *);
+	[Белпочта] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Badaka, 70] (*<- lang_en;; *);
+	[ул. Бадака, 70] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.122107, 25.952378];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDa4MULF];
+=> nrel_geolocation: Baranovichi;;

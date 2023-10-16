@@ -1,0 +1,14 @@
+bob_shop_center_iceberg
+<- concept_shopping_center_class;
+=> nrel_main_idtf:
+	[Iceberg] (*<- lang_en;; *);
+	[Айсберг] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Ulyanovskaya, 64] (*<- lang_en;; *);
+	[ул. Ульяновская, 64] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.170873, 29.191904];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaRRAoM];
+=> nrel_geolocation: Bobryisk;
+<- concept_no_ramp_class;;

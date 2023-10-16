@@ -1,0 +1,14 @@
+cult_restaurant_pushkina202
+<- concept_restaurant_class;
+=> nrel_main_idtf:
+	[Pushkina 202] (*<- lang_en;; *);
+	[Пушкина 202] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Pushkina, 202] (*<- lang_en;; *);
+	[ул. Пушкина, 202] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.144551, 29.224162];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaqmD1m];
+=> nrel_geolocation: Bobryisk;
+<- concept_ramp_class;;

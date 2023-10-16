@@ -1,0 +1,13 @@
+gov_bank_belarusbank
+<- concept_bank_class;
+=> nrel_main_idtf:
+	[Belarusbank] (*<- lang_en;; *);
+	[Беларусбанк] (*<- lang_ru;; *);
+=> nrel_address:
+	[ave. Sovetsky, 11] (*<- lang_en;; *);
+	[просп. Советский, 11] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.153089, 25.998980];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaY70-Y];
+=> nrel_geolocation: Baranovichi;;

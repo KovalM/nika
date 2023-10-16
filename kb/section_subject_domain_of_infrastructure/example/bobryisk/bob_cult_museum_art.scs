@@ -1,0 +1,14 @@
+cult_museum_art
+<- concept_museum_class;
+=> nrel_main_idtf:
+	[Art Museum] (*<- lang_en;; *);
+	[Художественный музей] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Maxim Gorky, 28] (*<- lang_en;; *);
+	[ул. Максима Горького, 28] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.145945, 29.226672];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaqiJ0x];
+=> nrel_geolocation: Bobryisk;
+<- concept_ramp_class;;

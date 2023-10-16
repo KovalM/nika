@@ -1,0 +1,14 @@
+shop_center_svetilovski
+<- concept_shopping_center_class;
+=> nrel_main_idtf:
+	[Svetilovsky] (*<- lang_en;; *);
+	[Светиловский] (*<- lang_ru;; *);
+=> nrel_address:
+	[ave. Sovetsky, 35] (*<- lang_en;; *);
+	[просп. Советский, 35] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.144467, 26.006629];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDa4Q-ys];
+=> nrel_geolocation: Baranovichi;
+<- concept_no_ramp_class;;

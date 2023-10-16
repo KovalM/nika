@@ -1,0 +1,14 @@
+health_hospital_gorhosp
+<- concept_hospital_class;
+=> nrel_main_idtf:
+	[Baranovichi City Hospital] (*<- lang_en;; *);
+	[Барановичская городская больница] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Brestskaya, 133] (*<- lang_en;; *);
+	[ул. Брестская, 133] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.129710, 25.996815];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDa4QUJw];
+=> nrel_geolocation: Baranovichi;
+<- concept_ramp_class;;

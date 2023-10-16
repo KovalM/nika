@@ -1,7 +1,5 @@
 concept_hospital_class
 <- sc_node_class;
-=> nrel_inclusion:
-	concept_subclass_identifier;
 => nrel_main_idtf:
 	[больница] (* <- lang_ru;; *);
 	[hospital] (* <- lang_en;; *);

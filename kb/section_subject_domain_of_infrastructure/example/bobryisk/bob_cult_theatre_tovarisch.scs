@@ -1,0 +1,13 @@
+cult_theatre_tovarisch
+<- concept_theatre_class;
+=> nrel_main_idtf:
+	[Comrade] (*<- lang_en;; *);
+	[Товарищ] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. International, 15] (*<- lang_en;; *);
+	[ул. Интернациональная, 15] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.139573, 29.224159];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaqqZ0o];
+=> nrel_geolocation: Bobryisk;;

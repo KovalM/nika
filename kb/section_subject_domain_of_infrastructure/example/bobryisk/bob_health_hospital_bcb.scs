@@ -1,0 +1,13 @@
+bob_health_hospital_bcb
+<- concept_hospital_class;
+=> nrel_main_idtf:
+	[Bobruisk Central Hospital] (*<- lang_en;; *);
+	[Бобруйская Центральная Больница] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Gagarina, 34] (*<- lang_en;; *);
+	[ул. Гагарина, 34] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.173598, 29.181997];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaqJAMn];
+=> nrel_geolocation: Bobryisk;;

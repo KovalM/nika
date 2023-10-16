@@ -1,0 +1,13 @@
+bob_edu_school_N20
+<- concept_school_class;
+=> nrel_main_idtf:
+	[Secondary school No. 20 of Bobruisk] (*<- lang_en;; *);
+	[Средняя школа № 20 г. Бобруйска] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Mikhasya Lynkova, 23] (*<- lang_en;; *);
+	[ул. Михася Лынькова, 23] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.166570, 29.201292];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaquCio];
+=> nrel_geolocation: Bobryisk;;

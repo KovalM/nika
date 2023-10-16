@@ -1,0 +1,13 @@
+bob_gov_post_belpost2
+<- concept_post_class;
+=> nrel_main_idtf:
+	[Belposhta] (*<- lang_en;; *);
+	[Белпочта] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Kovzana, 8] (*<- lang_en;; *);
+	[ул. Ковзана, 8] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.118900, 29.231113];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaqFF9h];
+=> nrel_geolocation: Bobryisk;;

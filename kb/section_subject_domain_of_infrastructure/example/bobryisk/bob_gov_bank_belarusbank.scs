@@ -1,0 +1,13 @@
+bob_gov_bank_belarusbank
+<- concept_school_class;
+=> nrel_main_idtf:
+	[Belarusbank] (*<- lang_en;; *);
+	[Беларусбанк] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Kuibysheva, 57] (*<- lang_en;; *);
+	[ул. Куйбышева, 57] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.161606, 29.229114];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaqBF6H];
+=> nrel_geolocation: Bobryisk;;

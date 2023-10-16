@@ -1,0 +1,14 @@
+bob_shop_shop_evroopt
+<- concept_shop_class;
+=> nrel_main_idtf:
+	[Euroopt] (*<- lang_en;; *);
+	[Евроопт] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Vanzetti, 23A] (*<- lang_en;; *);
+	[ул. Ванцетти, 23А] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.120817, 29.233021];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaRRRyN];
+=> nrel_geolocation: Bobryisk;
+<- concept_no_ramp_class;;

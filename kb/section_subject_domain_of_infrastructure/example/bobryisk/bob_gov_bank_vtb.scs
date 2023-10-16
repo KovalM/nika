@@ -1,0 +1,14 @@
+bob_gov_bank_vtb
+<- concept_school_class;
+=> nrel_main_idtf:
+	[VTB Bank] (*<- lang_en;; *);
+	[Банк ВТБ] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Socialist, 115] (*<- lang_en;; *);
+	[ул. Социалистическая, 115] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.140041, 29.225429];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaqBG5Z];
+=> nrel_geolocation: Bobryisk;
+<- concept_ramp_class;;

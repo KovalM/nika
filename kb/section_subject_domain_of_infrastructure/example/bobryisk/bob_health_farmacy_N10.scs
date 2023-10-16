@@ -1,0 +1,14 @@
+bob_health_farmacy_N10
+<- concept_farmacy_class;
+=> nrel_main_idtf:
+	[Pharmacy No. 10 Dominantafarm] (*<- lang_en;; *);
+	[Аптека № 10 Доминантафарм] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Pushkina, 184] (*<- lang_en;; *);
+	[ул. Пушкина, 184] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.139288, 29.222591];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaqFSnZ];
+=> nrel_geolocation: Bobryisk;
+<- concept_ramp_class;;

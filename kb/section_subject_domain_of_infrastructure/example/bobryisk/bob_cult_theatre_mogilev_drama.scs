@@ -1,0 +1,13 @@
+cult_theatre_mogilev_drama
+<- concept_theatre_class;
+=> nrel_main_idtf:
+	[Mogilev Regional Drama and Comedy Theater named after V.I. Dunin-Martsinkevich] (*<- lang_en;; *);
+	[Могилевский областной театр драмы и комедии им В.И. Дунина-Марцинкевича] (*<- lang_ru;; *);
+=> nrel_address:
+	[st. Socialist, 105] (*<- lang_en;; *);
+	[ул. Социалистическая, 105] (*<- lang_ru;; *);
+=> nrel_cords:
+	[53.138192, 29.226408];
+=> nrel_map_link:
+	[https://yandex.com/maps/-/CDaqqS6q];
+=> nrel_geolocation: Bobryisk;;
