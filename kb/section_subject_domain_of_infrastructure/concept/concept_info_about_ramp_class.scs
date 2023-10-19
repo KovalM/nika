@@ -1,0 +1,10 @@
+concept_info_about_ramp_class
+<- sc_node_class;
+=> nrel_main_idtf:
+	[место, имеющее информация о наличии пандуса] (* <- lang_ru;; *);
+	[place with information about the presence of a ramp] (* <- lang_en;; *);
+=> nrel_note:
+	[Место, имеющее информация о наличии пандуса это место, о котором известна доступность для людей с нарушением опорно-двигательного аппарата] (* <- lang_ru;; *);
+	[A place that has information about the presence of a ramp is a place that is known to be accessible to people with mobility impairments] (* <- lang_en;; *);
+-> concept_ramp_class;
+-> concept_no_ramp_class;;
