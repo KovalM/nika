@@ -1,0 +1,8 @@
+concept_message_about_location
+<- sc_node_class;
+<- concept_intent_possible_class;
+=> nrel_main_idtf:
+	[Сообщение о местоположении объекта в городе]
+	(* <- lang_ru;; *);
+=> nrel_wit_ai_idtf:
+	[about_location];;
