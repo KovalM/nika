@@ -3,6 +3,7 @@ concept_bank_class
 => nrel_main_idtf:
 	[банк] (* <- lang_ru;; *);
 	[bank] (* <- lang_en;; *);
+<- concept_wit_entity;
 => nrel_note:
 	[Банк это место где люди хранят деньги] (* <- lang_ru;; *);
 	[Bank is a place where people keep money] (* <- lang_en;; *);;

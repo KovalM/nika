@@ -3,6 +3,7 @@ concept_shopping_center_class
 => nrel_main_idtf:
 	[торговый центр] (* <- lang_ru;; *);
 	[shopping center] (* <- lang_en;; *);
+<- concept_wit_entity;
 => nrel_note:
 	[Торговый центр это здание, в котором находится много разных магазинов] (* <- lang_ru;; *);
 	[Shopping center is a building containing many different shops] (* <- lang_en;; *);;
