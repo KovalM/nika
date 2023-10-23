@@ -1,7 +1,7 @@
 concept_theatre_class
 <- sc_node_class;
 => nrel_main_idtf:
-	[Театр] (* <- lang_ru;; *);
+	[театр] (* <- lang_ru;; *);
 	[theatre] (* <- lang_en;; *);
 <- concept_wit_entity;
 => nrel_note:

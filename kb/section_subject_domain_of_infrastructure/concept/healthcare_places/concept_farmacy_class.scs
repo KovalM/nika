@@ -3,6 +3,7 @@ concept_farmacy_class
 => nrel_main_idtf:
 	[аптека] (* <- lang_ru;; *);
 	[farmacy] (* <- lang_en;; *);
+<- concept_wit_entity;
 => nrel_note:
 	[Аптека это место где можно купить лекарства] (* <- lang_ru;; *);
 	[Farmacy is a place where you can buy some medicine] (* <- lang_en;; *);;
