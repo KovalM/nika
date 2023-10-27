@@ -40,6 +40,12 @@ logging.basicConfig(
 class MapsObjectsInfoAgent(ScAgentClassic):
     def __init__(self):
         super().__init__("action_get_maps_object_info")
+        self.gmaps = googlemaps.Client(key='AIzaSyCp0BClKtxFt_9uI_WP24B_MT2KyRjvx-o')
+        self.location = (53.899137159097585, 27.56316256994039)
+        self.type = "restaurant"
+        self.language = "RU"
+        self.region = "BE"
+        self.radius = 100
 
     def on_event(self, event_element: ScAddr, event_edge: ScAddr, action_element: ScAddr) -> ScResult:
         result = self.run(action_element)
@@ -49,5 +55,19 @@ class MapsObjectsInfoAgent(ScAgentClassic):
                          "successfully" if is_successful else "unsuccessfully")
         return result
 
+    def create_edge(edge_type: ScType, src: ScAddr, trg: ScAddr) -> ScAddr: ...
+
     def run(self, action_node: ScAddr) -> ScResult:
         self.logger.info("MapsObjectsInfoAgent started")
+        result=self.gmaps.places(
+            "restaurant",
+            location=self.location,
+            radius=self.radius,
+            region=self.region,
+            language=self.language,
+            open_now=True,
+            type=self.type,)
+        print(result)
+        objects_info = create_node(sc_types.NODE_CONST)
+        object_class = ScKeynodes.resolve("concept_infrastructure_class", sc_types.NODE_CONST_CLASS)
+        edge = create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, object_class, objects_info)
