@@ -11,12 +11,12 @@ from sc_kpm import ScAgentClassic, ScModule, ScResult, ScServer
 from sc_kpm.sc_sets import ScSet
 from sc_kpm.utils import (
     create_link,
+    create_node,
     get_link_content_data,
     check_edge, create_edge,
     delete_edges,
     get_element_by_role_relation,
     get_element_by_norole_relation,
-    get_system_idtf,
     get_edge
 )
 from sc_kpm.utils.action_utils import (
@@ -30,6 +30,9 @@ from sc_kpm import ScKeynodes
 import requests
 
 import googlemaps
+from googlemaps import *
+
+from random import randint
 
 
 logging.basicConfig(
@@ -42,10 +45,9 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         super().__init__("action_get_maps_object_info")
         self.gmaps = googlemaps.Client(key='AIzaSyCp0BClKtxFt_9uI_WP24B_MT2KyRjvx-o')
         self.location = (53.899137159097585, 27.56316256994039)
-        self.type = "restaurant"
         self.language = "RU"
         self.region = "BE"
-        self.radius = 100
+        self.radius = 1
 
     def on_event(self, event_element: ScAddr, event_edge: ScAddr, action_element: ScAddr) -> ScResult:
         result = self.run(action_element)
@@ -55,19 +57,173 @@ class MapsObjectsInfoAgent(ScAgentClassic):
                          "successfully" if is_successful else "unsuccessfully")
         return result
 
-    def create_edge(edge_type: ScType, src: ScAddr, trg: ScAddr) -> ScAddr: ...
+    # def create_edge(edge_type: ScType, src: ScAddr, trg: ScAddr) -> ScAddr: ...
 
     def run(self, action_node: ScAddr) -> ScResult:
         self.logger.info("MapsObjectsInfoAgent started")
-        result=self.gmaps.places(
-            "restaurant",
-            location=self.location,
+
+        try:
+            message_addr = get_action_arguments(action_node, 1)[0]
+            message_type = ScKeynodes.resolve(
+                "concept_message_about_location", sc_types.NODE_CONST_CLASS)
+
+            if not check_edge(sc_types.EDGE_ACCESS_VAR_POS_PERM, message_type, message_addr):
+                self.logger.info(
+                    f"MapObjectsAgent: the message isn’t about location")
+                return ScResult.OK
+
+            # user_addr = self.get_user()
+            # user_location_idtf = self.get_user_location(user_addr)
+            # if not user_location_idtf: 
+            #     self.generate_message_reply(message_addr)
+            #     self.logger.info("MapsObjectInfoAgent: not found user location")
+            #     return ScResult.OK
+            
+
+            
+            rrel_territorial_object = ScKeynodes.resolve("rrel_territorial_object", sc_types.NODE_ROLE)
+            city_addr = self.get_entity_addr(message_addr, rrel_territorial_object)
+
+            city = get_link_content_data(self.get_ru_idtf(city_addr))
+            
+            city_results = self.gmaps.geocode(city)
+            print(city_results)
+            print(city_results[0])
+            print(city_results[0]["geometry"])
+            print(city_results[0]["geometry"]["location"])
+            city_lat = city_results[0]["geometry"]["location"]["lat"]
+            city_lng = city_results[0]["geometry"]["location"]["lng"]
+
+            print(city_lat, city_lng)
+            rrel_entity = ScKeynodes.resolve("rrel_entity", sc_types.NODE_ROLE)
+            node_entity = self.get_entity_addr(message_addr, rrel_entity)
+            place_type = get_link_content_data(self.get_ru_idtf(node_entity))
+
+
+            result=self.gmaps.places(
+            place_type,
+            location=(city_lat, city_lng),
             radius=self.radius,
             region=self.region,
             language=self.language,
             open_now=True,
-            type=self.type,)
-        print(result)
-        objects_info = create_node(sc_types.NODE_CONST)
-        object_class = ScKeynodes.resolve("concept_infrastructure_class", sc_types.NODE_CONST_CLASS)
-        edge = create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, object_class, objects_info)
+            type=place_type,)
+            # print(result)
+            # for i in range(0, len(result["results"])):
+            #     adress = result["results"][i]["formatted_address"]
+            #     objname = result["results"][i]["name"]
+            random_object_index = randint(0,len(result["results"])-1)
+            adress = result["results"][random_object_index]["formatted_address"]
+            objname = result["results"][random_object_index]["name"]
+            objects_info = create_node(sc_types.NODE_CONST)
+            object_class = ScKeynodes.resolve("concept_infrastructure_class", sc_types.NODE_CONST_CLASS)
+            edge = create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, object_class, objects_info)
+            print(adress, objname)
+
+            lang_ru = ScKeynodes.resolve("lang_ru", sc_types.NODE_CONST_CLASS)
+
+            nrel_geolocation = ScKeynodes.resolve("nrel_geolocation", sc_types.NODE_CONST_NOROLE)
+            node_entity_object = create_node(sc_types.NODE_CONST)
+            geolocation_edge = create_edge(sc_types.EDGE_D_COMMON_CONST, node_entity_object, city_addr)
+            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, nrel_geolocation, geolocation_edge)
+
+            
+            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, node_entity, node_entity_object)
+
+            object_address = create_link(str(adress), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+            nrel_address = ScKeynodes.resolve("nrel_address", sc_types.NODE_CONST_NOROLE)
+            address_edge = create_edge(sc_types.EDGE_D_COMMON_CONST, node_entity_object, object_address)
+            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, nrel_address, address_edge)
+            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, lang_ru, object_address)
+
+            object_name = create_link(str(objname), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+            nrel_main_idtf = ScKeynodes.resolve("nrel_main_idtf", sc_types.NODE_CONST_NOROLE)
+            name_edge = create_edge(sc_types.EDGE_D_COMMON_CONST, node_entity_object, object_name)
+            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, nrel_main_idtf, name_edge)
+            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, lang_ru, object_name)
+
+            return ScResult.OK    
+
+        except Exception as e:
+            self.logger.info(f"MapObjectsAgent: finished with an error", e)
+            return ScResult.ERROR
+
+    
+
+
+    def get_entity_addr(self, message_addr: ScAddr, relation: ScAddr):
+        template = ScTemplate()
+        # entity node or link
+        template.triple_with_relation(
+            message_addr,
+            sc_types.EDGE_ACCESS_VAR_POS_PERM,
+            sc_types.VAR,
+            sc_types.EDGE_ACCESS_VAR_POS_PERM,
+            relation,
+        )
+        search_results = template_search(template)
+        if len(search_results) == 0:
+            return ScAddr(0)
+        city = search_results[0][2]
+        if len(search_results) == 1:
+            return city
+        
+
+    def get_ru_idtf(self, entity_addr: ScAddr) -> ScAddr:
+        main_idtf = ScKeynodes.resolve(
+            "nrel_main_idtf", sc_types.NODE_CONST_NOROLE)
+        lang_ru = ScKeynodes.resolve("lang_ru", sc_types.NODE_CONST_CLASS)
+
+        template = ScTemplate()
+        template.triple_with_relation(
+            entity_addr,
+            sc_types.EDGE_D_COMMON_VAR,
+            sc_types.LINK,
+            sc_types.EDGE_ACCESS_VAR_POS_PERM,
+            main_idtf,
+        )
+        search_results = template_search(template)
+        for result in search_results:
+            idtf = result[2]
+            lang_edge = get_edge(
+                lang_ru, idtf, sc_types.EDGE_ACCESS_VAR_POS_PERM)
+            if lang_edge:
+                return idtf
+        return get_element_by_norole_relation(
+            src=entity_addr, nrel_node=main_idtf)
+    
+
+
+    def get_user(self) -> ScAddr:
+        concept_user = ScKeynodes.resolve("concept_user", sc_types.NODE_CONST_CLASS) 
+
+        template = ScTemplate()
+        template.triple(
+            concept_user,
+            sc_types.EDGE_ACCESS_VAR_POS_PERM,
+            sc_types.NODE_VAR,
+        )
+        search_results = template_search(template)
+        if len(search_results) == 0:
+            return ScAddr(0)
+        user_addr = search_results[0][2]
+        return user_addr
+    
+
+    # def get_user_location(self, user_addr) -> str:
+    #     nrel_location = ScKeynodes.resolve("nrel_location", sc_types.NODE_CONST_NOROLE) 
+    #     user_location_addr = get_element_by_norole_relation(user_addr, nrel_location)
+    #     if not user_location_addr.is_valid():
+    #         return None
+    #     user_location_idtf_addr = self.get_ru_idtf(user_location_addr)
+    #     user_location_idtf = get_link_content_data(user_location_idtf_addr)
+    #     return user_location_idtf
+        
+
+    def generate_message_reply(self, message_addr):
+        nrel_reply = ScKeynodes.resolve("nrel_question", sc_types.NODE_NOROLE)
+        reply_message_addr = create_link("Я не знаю где Вы находитесь. Пожалуйста, укажите свое местоположение", ScLinkContentType.STRING, sc_types.LINK_CONST)
+        edge = create_edge(sc_types.EDGE_D_COMMON_CONST, message_addr, reply_message_addr)
+        create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, nrel_reply, edge)
+        concept_message_user_location = ScKeynodes.resolve("concept_message_about_user_location", sc_types.NODE_CONST_CLASS)
+        create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, concept_message_user_location, reply_message_addr)
