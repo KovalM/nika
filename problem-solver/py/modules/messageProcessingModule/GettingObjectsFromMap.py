@@ -81,6 +81,9 @@ class MapsObjectsInfoAgent(ScAgentClassic):
             
             rrel_territorial_object = ScKeynodes.resolve("rrel_territorial_object", sc_types.NODE_ROLE)
             city_addr = self.get_entity_addr(message_addr, rrel_territorial_object)
+            if not city_addr.is_valid:
+                user_location = self.get_location_from_user(action_node) 
+            self.get_location_from_user(action_node)
             rrel_entity = ScKeynodes.resolve("rrel_entity", sc_types.NODE_ROLE)
             city = get_link_content_data(self.get_ru_idtf(city_addr))
             node_entity = self.get_entity_addr(message_addr, rrel_entity)
@@ -194,9 +197,9 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         search_results = template_search(template)
         if len(search_results) == 0:
             return ScAddr(0)
-        city = search_results[0][2]
+        entity = search_results[0][2]
         if len(search_results) == 1:
-            return city
+            return entity
         
     def get_ru_idtf(self, entity_addr: ScAddr) -> ScAddr:
         main_idtf = ScKeynodes.resolve(
@@ -221,20 +224,43 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         return get_element_by_norole_relation(
             src=entity_addr, nrel_node=main_idtf)
     
-    # def get_user(self) -> ScAddr:
-    #     concept_user = ScKeynodes.resolve("concept_user", sc_types.NODE_CONST_CLASS) 
+    def get_location_from_user(self, action_node):
+        userAddr = self.get_user(action_node)
+        # template = ScTemplate()
+        # template.triple_with_relation(
+        #     userAddr,
+        #     sc_types.EDGE_D_COMMON_VAR, 
+        #     sc_types.VAR,
+        #     sc_types.EDGE_ACCESS_VAR_POS_PERM,
+        #     ScKeynodes.resolve("nrel_ip_address", sc_types.NODE_NOROLE)
+        # )
+        # search_results = template_search(template)
+        # if len(search_results) == 0:
+        #     return ScAddr(0)
+        # useripAddr = search_results[0][2]
+        # user_ip = get_link_content_data(useripAddr)
+        user_ip = "46.56.239.62" 
+        req = requests.get(f"http://ipwho.is/{user_ip}")
+        print(req.json())
+        return None
+        # if len(search_results) == 1:
+        #     return user_ip
 
-    #     template = ScTemplate()
-    #     template.triple(
-    #         concept_user,
-    #         sc_types.EDGE_ACCESS_VAR_POS_PERM,
-    #         sc_types.NODE_VAR,
-    #     )
-    #     search_results = template_search(template)
-    #     if len(search_results) == 0:
-    #         return ScAddr(0)
-    #     user_addr = search_results[0][2]
-    #     return user_addr
+    def get_user(self, action_node) -> ScAddr:
+        template = ScTemplate()
+        template.triple_with_relation(
+            action_node,
+            sc_types.EDGE_D_COMMON_VAR, 
+            sc_types.VAR,
+            sc_types.EDGE_ACCESS_VAR_POS_PERM,
+            ScKeynodes.resolve("nrel_authors", sc_types.NODE_NOROLE)
+        )
+        search_results = template_search(template)
+        if len(search_results) == 0:
+            return ScAddr(0)
+        userAddr = search_results[0][2]
+        if len(search_results) == 1:
+            return userAddr
     
     # def get_user_location(self, user_addr) -> str:
     #     nrel_location = ScKeynodes.resolve("nrel_location", sc_types.NODE_CONST_NOROLE) 
