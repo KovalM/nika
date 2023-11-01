@@ -5,7 +5,7 @@ For this we wait for SIGINT.
 import logging
 from sc_client.models import ScAddr, ScLinkContentType, ScTemplate
 from sc_client.constants import sc_types
-from sc_client.client import template_search
+from sc_client.client import template_search, template_generate
 
 from sc_kpm import ScAgentClassic, ScModule, ScResult, ScServer
 from sc_kpm.sc_sets import ScSet
@@ -79,77 +79,107 @@ class MapsObjectsInfoAgent(ScAgentClassic):
             #     self.logger.info("MapsObjectInfoAgent: not found user location")
             #     return ScResult.OK
             
-
-            
             rrel_territorial_object = ScKeynodes.resolve("rrel_territorial_object", sc_types.NODE_ROLE)
             city_addr = self.get_entity_addr(message_addr, rrel_territorial_object)
-
-            city = get_link_content_data(self.get_ru_idtf(city_addr))
-            
-            city_results = self.gmaps.geocode(city)
-            print(city_results)
-            print(city_results[0])
-            print(city_results[0]["geometry"])
-            print(city_results[0]["geometry"]["location"])
-            city_lat = city_results[0]["geometry"]["location"]["lat"]
-            city_lng = city_results[0]["geometry"]["location"]["lng"]
-
-            print(city_lat, city_lng)
             rrel_entity = ScKeynodes.resolve("rrel_entity", sc_types.NODE_ROLE)
+            city = get_link_content_data(self.get_ru_idtf(city_addr))
             node_entity = self.get_entity_addr(message_addr, rrel_entity)
+            city_cords = self.get_city_cords(city)
+            print(city_cords)
             place_type = get_link_content_data(self.get_ru_idtf(node_entity))
-
-
-            result=self.gmaps.places(
-            place_type,
-            location=(city_lat, city_lng),
-            radius=self.radius,
-            region=self.region,
-            language=self.language,
-            open_now=True,
-            type=place_type,)
-            # print(result)
-            # for i in range(0, len(result["results"])):
-            #     adress = result["results"][i]["formatted_address"]
-            #     objname = result["results"][i]["name"]
-            random_object_index = randint(0,len(result["results"])-1)
-            adress = result["results"][random_object_index]["formatted_address"]
-            objname = result["results"][random_object_index]["name"]
-            objects_info = create_node(sc_types.NODE_CONST)
-            object_class = ScKeynodes.resolve("concept_infrastructure_class", sc_types.NODE_CONST_CLASS)
-            edge = create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, object_class, objects_info)
-            print(adress, objname)
-
-            lang_ru = ScKeynodes.resolve("lang_ru", sc_types.NODE_CONST_CLASS)
-
-            nrel_geolocation = ScKeynodes.resolve("nrel_geolocation", sc_types.NODE_CONST_NOROLE)
-            node_entity_object = create_node(sc_types.NODE_CONST)
-            geolocation_edge = create_edge(sc_types.EDGE_D_COMMON_CONST, node_entity_object, city_addr)
-            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, nrel_geolocation, geolocation_edge)
-
+            place_info = self.get_city_object_info(place_type, city_cords)
             
-            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, node_entity, node_entity_object)
-
-            object_address = create_link(str(adress), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
-            nrel_address = ScKeynodes.resolve("nrel_address", sc_types.NODE_CONST_NOROLE)
-            address_edge = create_edge(sc_types.EDGE_D_COMMON_CONST, node_entity_object, object_address)
-            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, nrel_address, address_edge)
-            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, lang_ru, object_address)
-
-            object_name = create_link(str(objname), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
-            nrel_main_idtf = ScKeynodes.resolve("nrel_main_idtf", sc_types.NODE_CONST_NOROLE)
-            name_edge = create_edge(sc_types.EDGE_D_COMMON_CONST, node_entity_object, object_name)
-            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, nrel_main_idtf, name_edge)
-            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, lang_ru, object_name)
+            self.translate_object_info_to_kb(place_info, city_addr, node_entity)
 
             return ScResult.OK    
 
         except Exception as e:
             self.logger.info(f"MapObjectsAgent: finished with an error", e)
             return ScResult.ERROR
+        
 
-    
+    def translate_object_info_to_kb(self, place_info, city_addr, node_entity):
+        
+        node_entity_object = create_node(sc_types.NODE_CONST)
+        lang_ru = ScKeynodes.resolve("lang_ru", sc_types.NODE_CONST_CLASS)
+        random_object_index = randint(0,len(place_info["results"])-1)
+        adress = place_info["results"][random_object_index]["formatted_address"]
+        objname = place_info["results"][random_object_index]["name"]
 
+        object_address = create_link(str(adress), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+        object_name = create_link(str(objname), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+
+        template = ScTemplate()
+        template.triple(
+                ScKeynodes.resolve("concept_infrastructure_class", sc_types.NODE_CONST_CLASS),
+                sc_types.EDGE_ACCESS_VAR_POS_PERM,
+                sc_types.NODE_VAR
+            )
+            
+        template.triple_with_relation(
+                node_entity_object,
+                sc_types.EDGE_D_COMMON_VAR,
+                city_addr,
+                sc_types.EDGE_ACCESS_VAR_POS_PERM,
+                ScKeynodes.resolve("nrel_geolocation", sc_types.NODE_CONST_NOROLE)
+            )
+           
+        template.triple(
+                node_entity,
+                sc_types.EDGE_ACCESS_VAR_POS_PERM,
+                node_entity_object
+            )
+           
+        template.triple_with_relation(
+                node_entity_object,
+                sc_types.EDGE_D_COMMON_VAR,
+                object_address,
+                sc_types.EDGE_ACCESS_VAR_POS_PERM,
+                ScKeynodes.resolve("nrel_address", sc_types.NODE_CONST_NOROLE)
+            )
+            
+        template.triple(
+                lang_ru,
+                sc_types.EDGE_ACCESS_VAR_POS_PERM,
+                object_address
+            )
+            
+        template.triple_with_relation(
+                node_entity_object,
+                sc_types.EDGE_D_COMMON_VAR,
+                object_name,
+                sc_types.EDGE_ACCESS_VAR_POS_PERM,
+                ScKeynodes.resolve("nrel_main_idtf", sc_types.NODE_CONST_NOROLE)
+            )
+            
+        template.triple(
+                lang_ru,
+                sc_types.EDGE_ACCESS_VAR_POS_PERM,
+                object_name
+            )
+
+        template_generate(template, {})
+
+    def get_city_object_info(self, place_type, city_cords):
+        result=self.gmaps.places(
+        place_type,
+        location=(city_cords),
+        radius=self.radius,
+        region=self.region,
+        language=self.language,
+        open_now=True,
+        type=place_type)
+        return result
+
+    def get_city_cords(self, city):
+        city_results = self.gmaps.geocode(city)
+        # print(city_results)
+        # print(city_results[0])
+        # print(city_results[0]["geometry"])
+        # print(city_results[0]["geometry"]["location"])
+        city_lat = city_results[0]["geometry"]["location"]["lat"]
+        city_lng = city_results[0]["geometry"]["location"]["lng"]
+        return (city_lat, city_lng)
 
     def get_entity_addr(self, message_addr: ScAddr, relation: ScAddr):
         template = ScTemplate()
@@ -168,7 +198,6 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         if len(search_results) == 1:
             return city
         
-
     def get_ru_idtf(self, entity_addr: ScAddr) -> ScAddr:
         main_idtf = ScKeynodes.resolve(
             "nrel_main_idtf", sc_types.NODE_CONST_NOROLE)
@@ -192,24 +221,21 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         return get_element_by_norole_relation(
             src=entity_addr, nrel_node=main_idtf)
     
+    # def get_user(self) -> ScAddr:
+    #     concept_user = ScKeynodes.resolve("concept_user", sc_types.NODE_CONST_CLASS) 
 
-
-    def get_user(self) -> ScAddr:
-        concept_user = ScKeynodes.resolve("concept_user", sc_types.NODE_CONST_CLASS) 
-
-        template = ScTemplate()
-        template.triple(
-            concept_user,
-            sc_types.EDGE_ACCESS_VAR_POS_PERM,
-            sc_types.NODE_VAR,
-        )
-        search_results = template_search(template)
-        if len(search_results) == 0:
-            return ScAddr(0)
-        user_addr = search_results[0][2]
-        return user_addr
+    #     template = ScTemplate()
+    #     template.triple(
+    #         concept_user,
+    #         sc_types.EDGE_ACCESS_VAR_POS_PERM,
+    #         sc_types.NODE_VAR,
+    #     )
+    #     search_results = template_search(template)
+    #     if len(search_results) == 0:
+    #         return ScAddr(0)
+    #     user_addr = search_results[0][2]
+    #     return user_addr
     
-
     # def get_user_location(self, user_addr) -> str:
     #     nrel_location = ScKeynodes.resolve("nrel_location", sc_types.NODE_CONST_NOROLE) 
     #     user_location_addr = get_element_by_norole_relation(user_addr, nrel_location)
@@ -219,7 +245,6 @@ class MapsObjectsInfoAgent(ScAgentClassic):
     #     user_location_idtf = get_link_content_data(user_location_idtf_addr)
     #     return user_location_idtf
         
-
     def generate_message_reply(self, message_addr):
         nrel_reply = ScKeynodes.resolve("nrel_question", sc_types.NODE_NOROLE)
         reply_message_addr = create_link("Я не знаю где Вы находитесь. Пожалуйста, укажите свое местоположение", ScLinkContentType.STRING, sc_types.LINK_CONST)
