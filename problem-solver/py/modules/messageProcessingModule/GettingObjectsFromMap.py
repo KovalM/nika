@@ -105,9 +105,27 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         
         node_entity_object = create_node(sc_types.NODE_CONST)
         lang_ru = ScKeynodes.resolve("lang_ru", sc_types.NODE_CONST_CLASS)
-        random_object_index = randint(0,len(place_info["results"])-1)
-        adress = place_info["results"][random_object_index]["formatted_address"]
-        objname = place_info["results"][random_object_index]["name"]
+        possible_places=[]
+        wanted_city = get_link_content_data(self.get_ru_idtf(city_addr))
+        for i in range(0, len(place_info)+1):
+            city = place_info["results"][i]["plus_code"]["compound_code"]
+            if wanted_city in city:
+                possible_places.append((place_info['results'][i]["formatted_address"], place_info['results'][i]["name"]))
+            print(place_info['results'][i]["formatted_address"])
+            print(place_info['results'][i]["name"])
+            print(place_info["results"][i]["plus_code"]["compound_code"])
+        print('possible places')
+        print('     |')
+        print('     |')
+        print('     V')
+        print(possible_places)
+        random_object_index = randint(0,len(possible_places)-1)
+        adress, objname = possible_places[random_object_index]
+        # adress = place_info["results"][random_object_index]["formatted_address"]
+        # objname = place_info["results"][random_object_index]["name"]
+        print('result adress and objname: ',adress, objname)
+        if possible_places == []:
+            ScResult.OK
 
         object_address = create_link(str(adress), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
         object_name = create_link(str(objname), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
@@ -164,14 +182,20 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         template_generate(template, {})
 
     def get_city_object_info(self, place_type, city_cords):
+        print('**********', city_cords)
         result=self.gmaps.places(
         place_type,
-        location=(city_cords),
+        location=city_cords,
         radius=self.radius,
         region=self.region,
         language=self.language,
         open_now=True,
         type=place_type)
+        print('***********************')
+        print('***********************')
+        # print(result)
+        print('***********************')
+        print('***********************')
         return result
 
     def get_city_cords(self, city):
@@ -182,6 +206,9 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         # print(city_results[0]["geometry"]["location"])
         city_lat = city_results[0]["geometry"]["location"]["lat"]
         city_lng = city_results[0]["geometry"]["location"]["lng"]
+        print('1*******************')
+        print(city_lat, city_lng)
+        print('2*********************')
         return (city_lat, city_lng)
 
     def get_entity_addr(self, message_addr: ScAddr, relation: ScAddr):
