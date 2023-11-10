@@ -165,7 +165,7 @@ class WeatherAgent(ScAgentClassic):
             src=entity_addr, nrel_node=main_idtf)
 
     def get_entity_addr(self, message_addr: ScAddr, rrel_entity: ScAddr):
-        rrel_entity = ScKeynodes.resolve("rrel_territorial_object", sc_types.NODE_ROLE) #rrel_entity
+        # rrel_entity = ScKeynodes.resolve("rrel_territorial_object", sc_types.NODE_ROLE) #rrel_entity
         # concept_country = ScKeynodes.resolve(
         #     "concept_country", sc_types.NODE_CONST_CLASS)
         template = ScTemplate()
