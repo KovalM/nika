@@ -47,7 +47,7 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         self.location = (53.899137159097585, 27.56316256994039)
         self.language = "RU"
         self.region = "BE"
-        self.radius = 1
+        self.radius = 10
 
     def on_event(self, event_element: ScAddr, event_edge: ScAddr, action_element: ScAddr) -> ScResult:
         result = self.run(action_element)
@@ -88,7 +88,6 @@ class MapsObjectsInfoAgent(ScAgentClassic):
             city = get_link_content_data(self.get_ru_idtf(city_addr))
             node_entity = self.get_entity_addr(message_addr, rrel_entity)
             city_cords = self.get_city_cords(city)
-            print(city_cords)
             place_type = get_link_content_data(self.get_ru_idtf(node_entity))
             place_info = self.get_city_object_info(place_type, city_cords)
             
@@ -107,6 +106,9 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         lang_ru = ScKeynodes.resolve("lang_ru", sc_types.NODE_CONST_CLASS)
         possible_places=[]
         wanted_city = get_link_content_data(self.get_ru_idtf(city_addr))
+        wanted_object = get_link_content_data(self.get_ru_idtf(node_entity))
+        print ('place info ')
+        print (place_info)
         for i in range(0, len(place_info)+1):
             city = place_info["results"][i]["plus_code"]["compound_code"]
             if wanted_city in city:
@@ -119,13 +121,36 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         print('     |')
         print('     V')
         print(possible_places)
+        # текст фразы
+        #
+        previous_phrase_template = ScTemplate()
+        previous_phrase_template.triple(
+            ScKeynodes.resolve("concept_unknown_location_phrase", sc_types.NODE_CONST_CLASS),
+            sc_types.EDGE_ACCESS_VAR_POS_PERM,
+            sc_types.LINK
+        )
+        search_results = template_search(previous_phrase_template)
+        for result in search_results:
+            delete_edges(result[0], result[2], sc_types.EDGE_ACCESS_VAR_POS_PERM)
+        unknown_location_phrase_text = "Извините, я не могу найти " + wanted_object + " в городе " + wanted_city
+        if not possible_places:
+            print(unknown_location_phrase_text)
+
+            unknown_location_phrase = create_link(str(unknown_location_phrase_text), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+            template = ScTemplate()
+            template.triple(
+                ScKeynodes.resolve("concept_unknown_location_phrase", sc_types.NODE_CONST_CLASS),
+                sc_types.EDGE_ACCESS_VAR_POS_PERM,
+                unknown_location_phrase
+            )
+
+            template_generate(template, {})
+            return 
         random_object_index = randint(0,len(possible_places)-1)
         adress, objname = possible_places[random_object_index]
         # adress = place_info["results"][random_object_index]["formatted_address"]
         # objname = place_info["results"][random_object_index]["name"]
         print('result adress and objname: ',adress, objname)
-        if possible_places == []:
-            ScResult.OK
 
         object_address = create_link(str(adress), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
         object_name = create_link(str(objname), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
