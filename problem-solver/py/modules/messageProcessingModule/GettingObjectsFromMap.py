@@ -9,6 +9,7 @@ from sc_client.client import template_search, template_generate
 
 from sc_kpm import ScAgentClassic, ScModule, ScResult, ScServer
 from sc_kpm.sc_sets import ScSet
+from sc_client import client
 from sc_kpm.utils import (
     create_link,
     create_node,
@@ -91,9 +92,10 @@ class MapsObjectsInfoAgent(ScAgentClassic):
             city_cords = self.get_city_cords(city)
             place_type = get_link_content_data(self.get_ru_idtf(node_entity))
             place_info = self.get_city_object_info(place_type, city_cords)
+
             
             self.translate_object_info_to_kb(place_info, city_addr, node_entity)
-
+            
             return ScResult.OK    
 
         except Exception as e:
@@ -103,7 +105,7 @@ class MapsObjectsInfoAgent(ScAgentClassic):
 
     def translate_object_info_to_kb(self, place_info, city_addr, node_entity):
         
-        node_entity_object = create_node(sc_types.NODE_CONST)
+        
         lang_ru = ScKeynodes.resolve("lang_ru", sc_types.NODE_CONST_CLASS)
         possible_places=[]
         wanted_city = get_link_content_data(self.get_ru_idtf(city_addr))
@@ -115,7 +117,9 @@ class MapsObjectsInfoAgent(ScAgentClassic):
             if wanted_city in city:
                 possible_places.append((place_info['results'][i]["formatted_address"], 
                                         place_info['results'][i]["name"], 
-                                        place_info["results"][i]["place_id"]))
+                                        place_info["results"][i]["place_id"],
+                                        (place_info["results"][i]["geometry"]["location"]["lat"],
+                                         place_info["results"][i]["geometry"]["location"]["lng"])))                                        
             print(place_info['results'][i]["formatted_address"])
             print(place_info['results'][i]["name"])
             print(place_info["results"][i]["plus_code"]["compound_code"])
@@ -153,12 +157,19 @@ class MapsObjectsInfoAgent(ScAgentClassic):
             template_generate(template, {})
             return 
         random_object_index = randint(0,len(possible_places)-1)
-        adress, objname, obj_place_id = possible_places[random_object_index]
+        adress, objname, obj_place_id, obj_place_cords = possible_places[random_object_index]
         # adress = place_info["results"][random_object_index]["formatted_address"]
         # objname = place_info["results"][random_object_index]["name"]
         print('result adress and objname: ',adress, objname)
+        [adress_list] = client.get_links_by_content(adress)
+        print(adress_list)
+        if not len(adress_list)==0:
+            print('adress list != 0')
+            return
+        node_entity_object = create_node(sc_types.NODE_CONST)
         object_address = create_link(str(adress), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
         object_name = create_link(str(objname), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+        obj_place_cords_link = create_link(str(obj_place_cords[0])+':'+str(obj_place_cords[1]), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
 
         
 
@@ -228,6 +239,15 @@ class MapsObjectsInfoAgent(ScAgentClassic):
                 ScKeynodes.resolve("concept_unknown_ramp_class", sc_types.NODE_CONST_CLASS),
                 sc_types.EDGE_ACCESS_VAR_POS_PERM,
                 node_entity_object)
+            
+        template.triple_with_relation(
+            node_entity_object,
+            sc_types.EDGE_D_COMMON_VAR,
+            obj_place_cords_link,
+            sc_types.EDGE_ACCESS_VAR_POS_PERM,
+            ScKeynodes.resolve("nrel_cords", sc_types.NODE_CONST_NOROLE)
+        )
+
         
         template_generate(template, {})
 
