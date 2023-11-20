@@ -1,13 +1,15 @@
-import { useCallback, useEffect, useState, Fragment } from 'react';
+import { useCallback, Fragment } from 'react';
 import { Wrapper, ChatWrapper, SCgViewerWrapper } from "./styled";
 import { Message } from '@components/Chat/Message';
 import { Chat } from '@components/Chat';
 import { Date } from '@components/Chat/Date';
-import { ScAddr } from 'ts-sc-client';
 import { resolveUserAgent } from '@agents/resolveUserAgent';
 import { useChat } from '@hooks/useChat';
 import * as React from "react";
 import { SC_WEB_URL } from "@constants";
+import { lazy, useEffect, useState } from "react";
+import { ScAddr, ScEventParams, ScEventType, ScTemplate, ScType } from "ts-sc-client";
+import { client } from "@api";
 
 export const Demo = () => {
     const [user, setUser] = useState<ScAddr | null>(null);
@@ -22,7 +24,7 @@ export const Demo = () => {
         [user, sendMessage],
     );
 
-    const url = SC_WEB_URL + '/?sys_id=answer_structure&scg_structure_view_only=true';
+    
 
     useEffect(() => {
         (async () => {
@@ -34,7 +36,81 @@ export const Demo = () => {
             setIsLoading(false);
         })();
     }, [initChat]);
+    const [lat, setLat] = useState<string>('');
+    const [lng, setLng] = useState<string>('');
 
+    async function onNewMapObject(classAddr: ScAddr, edgeAddr: ScAddr, actionAddr: ScAddr, eventId: number) {
+        const action_get_maps_object_info = 'action_get_maps_object_info';
+        const nrel_answer = 'nrel_answer';
+        const nrel_cords = 'nrel_cords';
+        const baseKeynodes = [
+            { id: action_get_maps_object_info, type: ScType.NodeConstClass },
+            { id: nrel_answer, type: ScType.NodeConstNoRole },
+            { id: nrel_cords, type: ScType.NodeConstNoRole },
+        ];
+
+        const keynodes = await client.resolveKeynodes(baseKeynodes);
+
+        const structAlias = '_struct';
+        const nodeEntityAlias = '_node_entity'
+        const cordsLinkAlias = '_cords_link'
+
+        const template = new ScTemplate();
+        template.triple(
+            keynodes[action_get_maps_object_info],
+            ScType.EdgeAccessVarPosPerm,
+            actionAddr,
+        );
+        template.tripleWithRelation(
+            actionAddr,
+            ScType.EdgeDCommonVar,
+            [ScType.NodeVarStruct, structAlias],
+            ScType.EdgeAccessVarPosPerm,
+            keynodes[nrel_answer],
+        );
+        template.triple(
+            structAlias,
+            ScType.EdgeAccessVarPosPerm,
+            [ScType.NodeVar, nodeEntityAlias],
+        );
+        template.tripleWithRelation(
+            nodeEntityAlias,
+            ScType.EdgeDCommonVar,
+            [ScType.LinkVar, cordsLinkAlias],
+            ScType.EdgeAccessVarPosPerm,
+            keynodes[nrel_cords],
+        );
+        const result = await client.templateSearch(template);
+        
+        if (result.length) {
+            const link = result[0].get(cordsLinkAlias);
+            const cords_result = await client.getLinkContents([link]);
+            if (cords_result.length) {
+                let cords_str = cords_result[0].data as string;
+                const cords_arr = cords_str.split(':', 2);
+                console.log(cords_str)
+                console.log(cords_arr)
+                setLat(cords_arr[0]);
+                setLng(cords_arr[1]);
+                console.log(lng, lat)
+            }
+        }    
+    
+    };
+    const registerOnNewMapObject = async () => {
+        const question_finished = 'question_finished';
+
+        const baseKeynodes = [
+            { id: question_finished, type: ScType.NodeConstClass },
+        ];
+        const keynodes = await client.resolveKeynodes(baseKeynodes);
+        const eventParams = new ScEventParams(keynodes[question_finished], ScEventType.AddOutgoingEdge, (classAddr: ScAddr, edgeAddr: ScAddr, 
+            actionAddr: ScAddr, eventId: number) => onNewMapObject(classAddr, edgeAddr, actionAddr, eventId));
+        await client.eventsCreate(eventParams); 
+    };
+    useEffect(() => {
+        registerOnNewMapObject();
+    },[]);
     return (
         <Wrapper>
             <ChatWrapper>
@@ -64,8 +140,10 @@ export const Demo = () => {
                 </Chat>
             </ChatWrapper>
             <SCgViewerWrapper>
-                <iframe src={url} style={{width: '100%', height: '100%', border: 0, borderRadius: '15px'}}/>
+                <iframe className="frame-map" src={`https://yandex.com/map-widget/v1/?l=sat%2Cskl&ll=`+lng+`%2C`+lat+`
+                &mode=search&ol=biz&z=18`} style={{width: '100%', height: '100%', border: 0, borderRadius: '15px'}} />
             </SCgViewerWrapper>
         </Wrapper>
     );
 };
+// oid=141245946157&

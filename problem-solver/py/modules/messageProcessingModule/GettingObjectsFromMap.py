@@ -94,7 +94,10 @@ class MapsObjectsInfoAgent(ScAgentClassic):
             place_info = self.get_city_object_info(place_type, city_cords)
 
             
-            self.translate_object_info_to_kb(place_info, city_addr, node_entity)
+            answer_node = self.translate_object_info_to_kb(place_info, city_addr, node_entity)
+            edge = create_edge(sc_types.EDGE_D_COMMON_CONST, action_node, answer_node)
+            nrel_answer = ScKeynodes.resolve("nrel_answer", sc_types.NODE_CONST_CLASS)
+            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, nrel_answer, edge)
             
             return ScResult.OK    
 
@@ -161,11 +164,46 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         # adress = place_info["results"][random_object_index]["formatted_address"]
         # objname = place_info["results"][random_object_index]["name"]
         print('result adress and objname: ',adress, objname)
+
+        answer_node = create_node(sc_types.NODE_CONST_STRUCT)
+        
+
         [adress_list] = client.get_links_by_content(adress)
         print(adress_list)
         if not len(adress_list)==0:
+            [adress_link] = adress_list
+            template = ScTemplate()
+            template.triple_with_relation(
+                [sc_types.NODE_VAR, '_node_entity_object'],
+                sc_types.EDGE_D_COMMON_VAR,
+                adress_link,
+                sc_types.EDGE_ACCESS_VAR_POS_PERM,
+                ScKeynodes.resolve("nrel_address", sc_types.NODE_CONST_NOROLE)
+            )
+            
+            template.triple_with_relation(
+                '_node_entity_object',
+                sc_types.EDGE_D_COMMON_VAR,
+                [sc_types.NODE_VAR, '_city'],
+                sc_types.EDGE_ACCESS_VAR_POS_PERM,
+                ScKeynodes.resolve("nrel_geolocation", sc_types.NODE_CONST_NOROLE)
+            )
+           
+            template.triple(
+                node_entity,
+                sc_types.EDGE_ACCESS_VAR_POS_PERM,
+                node_entity_object
+            )
+            
+            results = template_search(template)
+            if len(results) != 0:
+                result = results[0]
+                create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, answer_node, result['_node_entity_object'])
             print('adress list != 0')
-            return
+            return answer_node
+        
+        
+        
         node_entity_object = create_node(sc_types.NODE_CONST)
         object_address = create_link(str(adress), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
         object_name = create_link(str(objname), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
@@ -250,6 +288,10 @@ class MapsObjectsInfoAgent(ScAgentClassic):
 
         
         template_generate(template, {})
+
+        create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, answer_node, node_entity_object)
+
+        return answer_node
 
     def get_wheelchair_access_info(self, place_id, api_key):
         url = f"https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&fields=wheelchair_accessible_entrance&key={api_key}"
@@ -385,10 +427,10 @@ class MapsObjectsInfoAgent(ScAgentClassic):
     #     user_location_idtf = get_link_content_data(user_location_idtf_addr)
     #     return user_location_idtf
         
-    def generate_message_reply(self, message_addr):
-        nrel_reply = ScKeynodes.resolve("nrel_question", sc_types.NODE_NOROLE)
-        reply_message_addr = create_link("Я не знаю где Вы находитесь. Пожалуйста, укажите свое местоположение", ScLinkContentType.STRING, sc_types.LINK_CONST)
-        edge = create_edge(sc_types.EDGE_D_COMMON_CONST, message_addr, reply_message_addr)
-        create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, nrel_reply, edge)
-        concept_message_user_location = ScKeynodes.resolve("concept_message_about_user_location", sc_types.NODE_CONST_CLASS)
-        create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, concept_message_user_location, reply_message_addr)
+    # def generate_message_reply(self, message_addr):
+    #     nrel_reply = ScKeynodes.resolve("nrel_question", sc_types.NODE_NOROLE)
+    #     reply_message_addr = create_link("Я не знаю где Вы находитесь. Пожалуйста, укажите свое местоположение", ScLinkContentType.STRING, sc_types.LINK_CONST)
+    #     edge = create_edge(sc_types.EDGE_D_COMMON_CONST, message_addr, reply_message_addr)
+    #     create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, nrel_reply, edge)
+    #     concept_message_user_location = ScKeynodes.resolve("concept_message_about_user_location", sc_types.NODE_CONST_CLASS)
+    #     create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, concept_message_user_location, reply_message_addr)
