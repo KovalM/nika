@@ -36,8 +36,8 @@ export const Demo = () => {
             setIsLoading(false);
         })();
     }, [initChat]);
-    const [lat, setLat] = useState<string>('');
-    const [lng, setLng] = useState<string>('');
+    const [lat, setLat] = useState<string>('53.902287');
+    const [lng, setLng] = useState<string>('27.561824');
 
     async function onNewMapObject(classAddr: ScAddr, edgeAddr: ScAddr, actionAddr: ScAddr, eventId: number) {
         const action_get_maps_object_info = 'action_get_maps_object_info';
