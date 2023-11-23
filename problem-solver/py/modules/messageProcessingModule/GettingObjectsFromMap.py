@@ -290,7 +290,7 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         template_generate(template, {})
 
         create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, answer_node, node_entity_object)
-
+        
         return answer_node
 
     def get_wheelchair_access_info(self, place_id, api_key):

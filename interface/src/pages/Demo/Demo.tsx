@@ -146,5 +146,14 @@ export const Demo = () => {
         </Wrapper>
     );
 };
+
+{/* <div style="position:relative;overflow:hidden;"><a href="https://yandex.by/maps/157/minsk/?utm_medium=mapframe&utm_source=maps" 
+        style="color:#eee;font-size:12px;position:absolute;top:0px;">Минск</a>
+        <a href="https://yandex.by/maps/157/minsk/?ll=27.571522%2C53.902657&mode=routes&rtext=53.908470%2C27.479467~53.914596%2C27.663299&rtt=auto
+        &ruri=~ymapsbm1%3A%2F%2Ftransit%2Fstop%3Fid%3Dstation__lh_9614089&utm_medium=mapframe&utm_source=maps&z=11.72" 
+        style="color:#eee;font-size:12px;position:absolute;top:14px;">Яндекс Карты</a>
+        <iframe src="https://yandex.by/map-widget/v1/?ll=27.571522%2C53.902657&mode=routes&rtext=53.908470%2C27.479467~53.914596%2C27.663299
+        &rtt=auto&ruri=~ymapsbm1%3A%2F%2Ftransit%2Fstop%3Fid%3Dstation__lh_9614089&z=11.72" width="560" height="400" frameborder="1" 
+        allowfullscreen="true" style="position:relative;"></iframe></div> */}
 // oid=141245946157&
 // ol=biz&

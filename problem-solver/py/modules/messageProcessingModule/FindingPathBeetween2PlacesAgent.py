@@ -1,0 +1,184 @@
+# <div style="position:relative;overflow:hidden;"><a href="https://yandex.by/maps/157/minsk/?utm_medium=mapframe&utm_source=maps" 
+#         style="color:#eee;font-size:12px;position:absolute;top:0px;">Минск</a>
+#         <a href="https://yandex.by/maps/157/minsk/?ll=27.571522%2C53.902657&mode=routes&rtext=53.908470%2C27.479467~53.914596%2C27.663299&rtt=auto
+#         &ruri=~ymapsbm1%3A%2F%2Ftransit%2Fstop%3Fid%3Dstation__lh_9614089&utm_medium=mapframe&utm_source=maps&z=11.72" 
+#         style="color:#eee;font-size:12px;position:absolute;top:14px;">Яндекс Карты</a>
+#         <iframe src="https://yandex.by/map-widget/v1/?ll=27.571522%2C53.902657&mode=routes&rtext=53.908470%2C27.479467~53.914596%2C27.663299
+#         &rtt=auto&ruri=~ymapsbm1%3A%2F%2Ftransit%2Fstop%3Fid%3Dstation__lh_9614089&z=11.72" width="560" height="400" frameborder="1" 
+#         allowfullscreen="true" style="position:relative;"></iframe></div>
+
+
+"""
+This code creates some test agent and registers until the user stops the process.
+For this we wait for SIGINT.
+"""
+import logging
+from sc_client.models import ScAddr, ScLinkContentType, ScTemplate
+from sc_client.constants import sc_types
+from sc_client.client import template_search, template_generate
+
+from sc_kpm import ScAgentClassic, ScModule, ScResult, ScServer
+from sc_kpm.sc_sets import ScSet
+from sc_client import client
+from sc_kpm.utils import (
+    create_link,
+    create_node,
+    get_link_content_data,
+    check_edge, create_edge,
+    delete_edges,
+    get_element_by_role_relation,
+    get_element_by_norole_relation,
+    get_edge
+)
+from sc_kpm.utils.action_utils import (
+    create_action_answer,
+    finish_action_with_status,
+    get_action_arguments,
+    get_element_by_role_relation
+)
+from sc_kpm import ScKeynodes
+
+import requests
+
+import googlemaps
+from googlemaps import *
+
+from random import randint
+
+
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s | %(name)s | %(message)s", datefmt="[%d-%b-%y %H:%M:%S]"
+)
+
+
+class FindingPathAgent(ScAgentClassic):
+    def __init__(self):
+        super().__init__("action_get_path_between_objects")
+        self.gkey = 'AIzaSyCp0BClKtxFt_9uI_WP24B_MT2KyRjvx-o'
+        self.gmaps = googlemaps.Client(key=self.gkey)
+        self.location = (53.899137159097585, 27.56316256994039)
+        self.language = "RU"
+        self.region = "BE"
+        self.radius = 10
+
+    def on_event(self, event_element: ScAddr, event_edge: ScAddr, action_element: ScAddr) -> ScResult:
+        result = self.run(action_element)
+        is_successful = result == ScResult.OK
+        finish_action_with_status(action_element, is_successful)
+        self.logger.info("FindingPathAgent finished %s",
+                         "successfully" if is_successful else "unsuccessfully")
+        return result
+
+    # def create_edge(edge_type: ScType, src: ScAddr, trg: ScAddr) -> ScAddr: ...
+
+    def run(self, action_node: ScAddr) -> ScResult:
+        self.logger.info("FindingPathAgent started")
+
+        try:
+            message_addr = get_action_arguments(action_node, 1)[0]
+            message_type = ScKeynodes.resolve(
+                "concept_message_about_path", sc_types.NODE_CONST_CLASS)
+
+            if not check_edge(sc_types.EDGE_ACCESS_VAR_POS_PERM, message_type, message_addr):
+                self.logger.info(
+                    f"FindingPathAgent: the message isn’t about path")
+                return ScResult.OK
+            
+            rrel_territorial_object = ScKeynodes.resolve("rrel_territorial_object", sc_types.NODE_ROLE)
+            rrel_first_place = ScKeynodes.resolve("rrel_first_place", sc_types.NODE_ROLE)
+            rrel_second_place = ScKeynodes.resolve("rrel_second_place", sc_types.NODE_ROLE)
+
+            city_addr = self.get_entity_addr(message_addr, rrel_territorial_object)
+            first_addr = self.get_entity_addr(message_addr, rrel_first_place)
+            second_addr = self.get_entity_addr(message_addr, rrel_second_place)
+
+            city = get_link_content_data(self.get_ru_idtf(city_addr))
+            first = get_link_content_data(self.get_ru_idtf(first_addr))
+            second = get_link_content_data(self.get_ru_idtf(second_addr))
+
+            first_cords = self.get_place_cords(first)
+            second_cords = self.get_place_cords(second)
+            city_cords = self.get_place_cords(city)
+
+            self.check_cords(city_addr, city_cords)
+            self.check_cords(first_addr, first_cords)
+            self.check_cords(second_addr, second_cords)
+            
+            return ScResult.OK    
+
+        except Exception as e:
+            self.logger.info(f"FindingPathAgent: finished with an error", e)
+            return ScResult.ERROR
+    
+
+    def get_place_cords(self, city):
+        results = self.gmaps.geocode(city)
+        # print(city_results)
+        # print(city_results[0])
+        # print(city_results[0]["geometry"])
+        # print(city_results[0]["geometry"]["location"])
+        lat = results[0]["geometry"]["location"]["lat"]
+        lng = results[0]["geometry"]["location"]["lng"]
+        print('1*******************')
+        print(lat, lng)
+        print('2*********************')
+        res = str(f"{lat}:{lng}")
+        return res
+    
+
+    def check_cords(self, addr, cords):
+        [cords_links_list] = client.get_links_by_content(cords)
+        print(cords_links_list)
+        if len(cords_links_list)==0:
+            link = create_link(cords, ScLinkContentType.STRING, sc_types.LINK_CONST)
+            template = ScTemplate()
+            template.triple_with_relation(
+                addr,
+                sc_types.EDGE_D_COMMON_VAR,
+                link,
+                sc_types.EDGE_ACCESS_VAR_POS_PERM,
+                ScKeynodes.resolve("nrel_cords", sc_types.NODE_CONST_NOROLE)
+            )
+            template_generate(template, {})
+        
+
+    def get_entity_addr(self, message_addr: ScAddr, relation: ScAddr):
+        template = ScTemplate()
+        # entity node or link
+        template.triple_with_relation(
+            message_addr,
+            sc_types.EDGE_ACCESS_VAR_POS_PERM,
+            sc_types.VAR,
+            sc_types.EDGE_ACCESS_VAR_POS_PERM,
+            relation,
+        )
+        search_results = template_search(template)
+        if len(search_results) == 0:
+            return ScAddr(0)
+        entity = search_results[0][2]
+        if len(search_results) == 1:
+            return entity
+        
+    def get_ru_idtf(self, entity_addr: ScAddr) -> ScAddr:
+        main_idtf = ScKeynodes.resolve(
+            "nrel_main_idtf", sc_types.NODE_CONST_NOROLE)
+        lang_ru = ScKeynodes.resolve("lang_ru", sc_types.NODE_CONST_CLASS)
+
+        template = ScTemplate()
+        template.triple_with_relation(
+            entity_addr,
+            sc_types.EDGE_D_COMMON_VAR,
+            sc_types.LINK,
+            sc_types.EDGE_ACCESS_VAR_POS_PERM,
+            main_idtf,
+        )
+        search_results = template_search(template)
+        for result in search_results:
+            idtf = result[2]
+            lang_edge = get_edge(
+                lang_ru, idtf, sc_types.EDGE_ACCESS_VAR_POS_PERM)
+            if lang_edge:
+                return idtf
+        return get_element_by_norole_relation(
+            src=entity_addr, nrel_node=main_idtf)
+    
