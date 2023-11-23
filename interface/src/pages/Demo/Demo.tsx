@@ -141,9 +141,10 @@ export const Demo = () => {
             </ChatWrapper>
             <SCgViewerWrapper>
                 <iframe className="frame-map" src={`https://yandex.com/map-widget/v1/?l=sat%2Cskl&ll=`+lng+`%2C`+lat+`
-                &mode=search&ol=biz&z=18`} style={{width: '100%', height: '100%', border: 0, borderRadius: '15px'}} />
+                &poi[point]=`+lng+`%2C`+lat+`&mode=poi&z=18&lang=ru`} style={{width: '100%', height: '100%', border: 0, borderRadius: '15px'}} />
             </SCgViewerWrapper>
         </Wrapper>
     );
 };
 // oid=141245946157&
+// ol=biz&
