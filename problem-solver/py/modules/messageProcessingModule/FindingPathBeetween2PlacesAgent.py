@@ -45,6 +45,8 @@ from googlemaps import *
 
 from random import randint
 
+from datetime import datetime 
+
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s | %(name)s | %(message)s", datefmt="[%d-%b-%y %H:%M:%S]"
@@ -93,17 +95,55 @@ class FindingPathAgent(ScAgentClassic):
             second_addr = self.get_entity_addr(message_addr, rrel_second_place)
 
             city = get_link_content_data(self.get_ru_idtf(city_addr))
-            first = get_link_content_data(self.get_ru_idtf(first_addr))
-            second = get_link_content_data(self.get_ru_idtf(second_addr))
+            first = get_link_content_data(first_addr)
+            second = get_link_content_data(second_addr)
 
-            first_cords = self.get_place_cords(first)
-            second_cords = self.get_place_cords(second)
+            print('---------> ',first, '=', second, '=', city)
+
+            first_cords = self.get_place_cords(first+' '+city)
+            second_cords = self.get_place_cords(second+' '+city)
             city_cords = self.get_place_cords(city)
-
-            self.check_cords(city_addr, city_cords)
-            self.check_cords(first_addr, first_cords)
-            self.check_cords(second_addr, second_cords)
             
+            self.check_cords(city_addr, str(city_cords[0])+', '+str(city_cords[1]))
+            self.check_cords(first_addr, str(first_cords[0])+', '+str(first_cords[1]))
+            self.check_cords(second_addr, str(second_cords[0])+', '+str(second_cords[1]))
+
+            first_c = self.gmaps.reverse_geocode(first_cords)
+            second_c = self.gmaps.reverse_geocode(second_cords)
+            print(first_c[0]["formatted_address"])
+            print(second_c[0]["formatted_address"])
+
+            now = datetime.now()
+
+            print(first_cords, '=', second_cords, '=', city_cords)
+            print(type(first_cords), '=', type(second_cords), '=', type(city_cords))
+            
+            directions_result = self.gmaps.directions(first_c[0]["formatted_address"],
+                                     second_c[0]["formatted_address"],
+                                     mode="transit", 
+                                     departure_time=now, region="BE", language="RU")
+            print(directions_result[0]["legs"][0]["distance"]["text"])
+            print(directions_result[0]["legs"][0]["duration"]["text"])
+            print(directions_result[0]["legs"][0]["arrival_time"]["text"])
+            time = directions_result[0]["legs"][0]["duration"]["text"]
+            dist = directions_result[0]["legs"][0]["distance"]["text"]
+            arr_time = directions_result[0]["legs"][0]["arrival_time"]["text"]
+
+            time_link = create_link(time, ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+            dist_link = create_link(dist, ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+            arr_time_link = create_link(arr_time, ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+
+            arr_time_addr = ScKeynodes.resolve("rrel_arrival_time", sc_types.NODE_CONST_ROLE)
+            time_addr = ScKeynodes.resolve("rrel_time", sc_types.NODE_CONST_ROLE)
+            distance_addr = ScKeynodes.resolve("rrel_distance", sc_types.NODE_CONST_ROLE)
+
+            edge = create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, message_addr, time_link)
+            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, time_addr, edge)
+            edge = create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, message_addr, arr_time_link)
+            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, arr_time_addr, edge)
+            edge = create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, message_addr, dist_link)
+            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, distance_addr, edge)
+
             return ScResult.OK    
 
         except Exception as e:
@@ -122,7 +162,9 @@ class FindingPathAgent(ScAgentClassic):
         print('1*******************')
         print(lat, lng)
         print('2*********************')
-        res = str(f"{lat}:{lng}")
+        res = (lat, lng)
+
+        # res = str(f"{lat}:{lng}")
         return res
     
 

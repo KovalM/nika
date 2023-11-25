@@ -1,0 +1,29 @@
+concept_first_place
+<- sc_node_class;
+<- concept_entity_possible_class;
+=> nrel_main_idtf:
+	[first place from wit ai]
+	(* <- lang_en;; *);
+=> nrel_wit_ai_idtf:
+	[rrel_first_place];
+=> nrel_entity_possible_role:
+    rrel_first_place;;
+rrel_first_place
+<- sc_node_role_relation;
+=> nrel_wit_ai_idtf:
+	[rrel_first_place];;
+
+concept_second_place
+<- sc_node_class;
+<- concept_entity_possible_class;
+=> nrel_main_idtf:
+	[second place from wit ai]
+	(* <- lang_en;; *);
+=> nrel_wit_ai_idtf:
+	[rrel_second_place];
+=> nrel_entity_possible_role:
+    rrel_second_place;;
+rrel_second_place
+<- sc_node_role_relation;
+=> nrel_wit_ai_idtf:
+	[rrel_second_place];;
