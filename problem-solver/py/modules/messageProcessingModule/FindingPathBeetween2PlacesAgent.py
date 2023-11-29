@@ -129,9 +129,14 @@ class FindingPathAgent(ScAgentClassic):
             dist = directions_result[0]["legs"][0]["distance"]["text"]
             arr_time = directions_result[0]["legs"][0]["arrival_time"]["text"]
 
+            lang_ru = ScKeynodes.resolve("lang_ru", sc_types.NODE_CONST_CLASS)
+
             time_link = create_link(time, ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+            # create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, lang_ru, time_link)
             dist_link = create_link(dist, ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+            # create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, lang_ru, dist_link)
             arr_time_link = create_link(arr_time, ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+            # create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, lang_ru, arr_time_link)e
 
             arr_time_addr = ScKeynodes.resolve("rrel_arrival_time", sc_types.NODE_CONST_ROLE)
             time_addr = ScKeynodes.resolve("rrel_time", sc_types.NODE_CONST_ROLE)
