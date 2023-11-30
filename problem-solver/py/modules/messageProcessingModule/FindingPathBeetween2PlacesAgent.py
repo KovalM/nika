@@ -3,10 +3,8 @@
 #         <a href="https://yandex.by/maps/157/minsk/?ll=27.571522%2C53.902657&mode=routes&rtext=53.908470%2C27.479467~53.914596%2C27.663299&rtt=auto
 #         &ruri=~ymapsbm1%3A%2F%2Ftransit%2Fstop%3Fid%3Dstation__lh_9614089&utm_medium=mapframe&utm_source=maps&z=11.72" 
 #         style="color:#eee;font-size:12px;position:absolute;top:14px;">Яндекс Карты</a>
-#         <iframe src="https://yandex.by/map-widget/v1/?ll=27.571522%2C53.902657&mode=routes&rtext=53.908470%2C27.479467~53.914596%2C27.663299
-#         &rtt=auto&ruri=~ymapsbm1%3A%2F%2Ftransit%2Fstop%3Fid%3Dstation__lh_9614089&z=11.72" width="560" height="400" frameborder="1" 
+#         <iframe src="https://yandex.by/map-widget/v1/?ll=27.566914%2C53.891637&mode=routes&rtext=53.882923%2C27.675225~53.899296%2C27.456948&rtt=pd&ruri=~ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg2NjY4NDMyNxJB0JHQtdC70LDRgNGD0YHRjCwg0JzRltC90YHQuiwg0LLRg9C70ZbRhtCwINCQ0LTQt9GW0L3RhtC-0LLQsCwgMTAiCg3Mp9tBFfKYV0I%2C&z=12.94" width="560" height="400" frameborder="1"
 #         allowfullscreen="true" style="position:relative;"></iframe></div>
-
 
 """
 This code creates some test agent and registers until the user stops the process.
@@ -103,7 +101,17 @@ class FindingPathAgent(ScAgentClassic):
             first_cords = self.get_place_cords(first+' '+city)
             second_cords = self.get_place_cords(second+' '+city)
             city_cords = self.get_place_cords(city)
-            
+
+            first_cords_link = create_link(str(first_cords[0])+', '+str(first_cords[1]), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+            second_cords_link = create_link(str(second_cords[0])+', '+str(second_cords[1]), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+            first_cords_addr = ScKeynodes.resolve("rrel_first_cords", sc_types.NODE_CONST_ROLE)
+            second_cords_addr = ScKeynodes.resolve("rrel_second_cords", sc_types.NODE_CONST_ROLE)
+
+            edge = create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, message_addr, first_cords_link)
+            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, first_cords_addr, edge)
+            edge = create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, message_addr, second_cords_link)
+            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, second_cords_addr, edge)
+
             self.check_cords(city_addr, str(city_cords[0])+', '+str(city_cords[1]))
             self.check_cords(first_addr, str(first_cords[0])+', '+str(first_cords[1]))
             self.check_cords(second_addr, str(second_cords[0])+', '+str(second_cords[1]))

@@ -36,9 +36,8 @@ export const Demo = () => {
             setIsLoading(false);
         })();
     }, [initChat]);
-    const [lat, setLat] = useState<string>('53.902287');
-    const [lng, setLng] = useState<string>('27.561824');
-
+    const [mapUrl, setMapUrl] = useState<string>
+    ('https://yandex.com/map-widget/v1/?l=sat%2Cskl&ll=27.561824%2C53.902287&poi[point]=27.561824%2C53.902287&mode=poi&z=18&lang=ru');
     async function onNewMapObject(classAddr: ScAddr, edgeAddr: ScAddr, actionAddr: ScAddr, eventId: number) {
         const action_get_maps_object_info = 'action_get_maps_object_info';
         const nrel_answer = 'nrel_answer';
@@ -90,26 +89,57 @@ export const Demo = () => {
                 const cords_arr = cords_str.split(':', 2);
                 console.log(cords_str)
                 console.log(cords_arr)
-                setLat(cords_arr[0]);
-                setLng(cords_arr[1]);
-                console.log(lng, lat)
+                setMapUrl(`https://yandex.com/map-widget/v1/?l=sat%2Cskl&ll=`+cords_arr[1]+`%2C`+cords_arr[0]+`&poi[point]=`+cords_arr[1]+`%2C`+cords_arr[0]+`&mode=poi&z=18&lang=ru`)
+                console.log(cords_arr[1], cords_arr[0])
             }
         }    
     
     };
-    const registerOnNewMapObject = async () => {
+    async function onNewRoute(classAddr: ScAddr, edgeAddr: ScAddr, actionAddr: ScAddr, eventId: number) {
+        const action_get_path_between_objects = 'action_get_path_between_objects';
+        const nrel_answer = 'nrel_answer';
+        const nrel_cords = 'nrel_cords';
+        const baseKeynodes = [
+            { id: action_get_path_between_objects, type: ScType.NodeConstClass },
+            { id: nrel_answer, type: ScType.NodeConstNoRole },
+            { id: nrel_cords, type: ScType.NodeConstNoRole },
+        ];
+
+        const keynodes = await client.resolveKeynodes(baseKeynodes);
+
+        const structAlias = '_struct';
+        const nodeEntityAlias = '_node_entity'
+        const cordsLinkAlias = '_cords_link'
+
+        const template = new ScTemplate();
+        template.triple(
+            keynodes[action_get_path_between_objects],
+            ScType.EdgeAccessVarPosPerm,
+            actionAddr,
+        );
+        const result = await client.templateSearch(template);
+
+        if (result.length) {
+            setMapUrl(`https://yandex.by/map-widget/v1/?ll=27.566914%2C53.891637&mode=routes&rtext=53.882923%2C27.675225~53.899296%2C27.456948&rtt=pd&ruri=~ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg2NjY4NDMyNxJB0JHQtdC70LDRgNGD0YHRjCwg0JzRltC90YHQuiwg0LLRg9C70ZbRhtCwINCQ0LTQt9GW0L3RhtC-0LLQsCwgMTAiCg3Mp9tBFfKYV0I%2C&z=12.94" width="560" height="400" frameborder="1"`)
+        }
+
+    };
+    const registerMapEvent = async () => {
         const question_finished = 'question_finished';
 
         const baseKeynodes = [
             { id: question_finished, type: ScType.NodeConstClass },
         ];
         const keynodes = await client.resolveKeynodes(baseKeynodes);
-        const eventParams = new ScEventParams(keynodes[question_finished], ScEventType.AddOutgoingEdge, (classAddr: ScAddr, edgeAddr: ScAddr, 
+        const newObjectEventParams = new ScEventParams(keynodes[question_finished], ScEventType.AddOutgoingEdge, (classAddr: ScAddr, edgeAddr: ScAddr,
             actionAddr: ScAddr, eventId: number) => onNewMapObject(classAddr, edgeAddr, actionAddr, eventId));
-        await client.eventsCreate(eventParams); 
+        const newRouteEventParams = new ScEventParams(keynodes[question_finished], ScEventType.AddOutgoingEdge, (classAddr: ScAddr, edgeAddr: ScAddr,
+            actionAddr: ScAddr, eventId: number) => onNewRoute(classAddr, edgeAddr, actionAddr, eventId));
+        await client.eventsCreate(newObjectEventParams);
+        await client.eventsCreate(newRouteEventParams);
     };
     useEffect(() => {
-        registerOnNewMapObject();
+        registerMapEvent();
     },[]);
     return (
         <Wrapper>
@@ -140,8 +170,7 @@ export const Demo = () => {
                 </Chat>
             </ChatWrapper>
             <SCgViewerWrapper>
-                <iframe className="frame-map" src={`https://yandex.com/map-widget/v1/?l=sat%2Cskl&ll=`+lng+`%2C`+lat+`
-                &poi[point]=`+lng+`%2C`+lat+`&mode=poi&z=18&lang=ru`} style={{width: '100%', height: '100%', border: 0, borderRadius: '15px'}} />
+                <iframe className="frame-map" src={mapUrl} style={{width: '100%', height: '100%', border: 0, borderRadius: '15px'}} />
             </SCgViewerWrapper>
         </Wrapper>
     );
@@ -149,10 +178,10 @@ export const Demo = () => {
 
 {/* <div style="position:relative;overflow:hidden;"><a href="https://yandex.by/maps/157/minsk/?utm_medium=mapframe&utm_source=maps" 
         style="color:#eee;font-size:12px;position:absolute;top:0px;">Минск</a>
-        <a href="https://yandex.by/maps/157/minsk/?ll=27.571522%2C53.902657&mode=routes&rtext=53.908470%2C27.479467~53.914596%2C27.663299&rtt=auto
+        <a href="https://yandex.by/maps/157/minsk/?ll=27.571522%2C53.902657&mode=Routes&rtext=53.908470%2C27.479467~53.914596%2C27.663299&rtt=auto
         &ruri=~ymapsbm1%3A%2F%2Ftransit%2Fstop%3Fid%3Dstation__lh_9614089&utm_medium=mapframe&utm_source=maps&z=11.72" 
         style="color:#eee;font-size:12px;position:absolute;top:14px;">Яндекс Карты</a>
-        <iframe src="https://yandex.by/map-widget/v1/?ll=27.571522%2C53.902657&mode=routes&rtext=53.908470%2C27.479467~53.914596%2C27.663299
+        <iframe src="https://yandex.by/map-widget/v1/?ll=27.571522%2C53.902657&mode=Routes&rtext=53.908470%2C27.479467~53.914596%2C27.663299
         &rtt=auto&ruri=~ymapsbm1%3A%2F%2Ftransit%2Fstop%3Fid%3Dstation__lh_9614089&z=11.72" width="560" height="400" frameborder="1" 
         allowfullscreen="true" style="position:relative;"></iframe></div> */}
 // oid=141245946157&
