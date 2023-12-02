@@ -102,8 +102,8 @@ class FindingPathAgent(ScAgentClassic):
             second_cords = self.get_place_cords(second+' '+city)
             city_cords = self.get_place_cords(city)
 
-            first_cords_link = create_link(str(first_cords[0])+', '+str(first_cords[1]), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
-            second_cords_link = create_link(str(second_cords[0])+', '+str(second_cords[1]), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+            first_cords_link = create_link(str(first_cords[0])+':'+str(first_cords[1]), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+            second_cords_link = create_link(str(second_cords[0])+':'+str(second_cords[1]), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
             first_cords_addr = ScKeynodes.resolve("rrel_first_cords", sc_types.NODE_CONST_ROLE)
             second_cords_addr = ScKeynodes.resolve("rrel_second_cords", sc_types.NODE_CONST_ROLE)
 

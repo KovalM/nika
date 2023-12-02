@@ -85,7 +85,7 @@ export const Demo = () => {
             const link = result[0].get(cordsLinkAlias);
             const cords_result = await client.getLinkContents([link]);
             if (cords_result.length) {
-                let cords_str = cords_result[0].data as string;
+                const cords_str = cords_result[0].data as string;
                 const cords_arr = cords_str.split(':', 2);
                 console.log(cords_str)
                 console.log(cords_arr)
@@ -97,19 +97,21 @@ export const Demo = () => {
     };
     async function onNewRoute(classAddr: ScAddr, edgeAddr: ScAddr, actionAddr: ScAddr, eventId: number) {
         const action_get_path_between_objects = 'action_get_path_between_objects';
-        const nrel_answer = 'nrel_answer';
-        const nrel_cords = 'nrel_cords';
+        const rrel_1 = 'rrel_1';
+        const rrel_first_cords = 'rrel_first_cords';
+        const rrel_second_cords = 'rrel_second_cords';
         const baseKeynodes = [
             { id: action_get_path_between_objects, type: ScType.NodeConstClass },
-            { id: nrel_answer, type: ScType.NodeConstNoRole },
-            { id: nrel_cords, type: ScType.NodeConstNoRole },
+            { id: rrel_1, type: ScType.NodeConstRole },
+            { id: rrel_first_cords, type: ScType.NodeConstRole },
+            { id: rrel_second_cords, type: ScType.NodeConstRole },
         ];
 
         const keynodes = await client.resolveKeynodes(baseKeynodes);
 
-        const structAlias = '_struct';
-        const nodeEntityAlias = '_node_entity'
-        const cordsLinkAlias = '_cords_link'
+        const messageAlias = '_message';
+        const firstCordsAlias = '_firstCordsLink';
+        const secondCordsAlias = '_secondCordsLink';
 
         const template = new ScTemplate();
         template.triple(
@@ -117,10 +119,50 @@ export const Demo = () => {
             ScType.EdgeAccessVarPosPerm,
             actionAddr,
         );
+        template.tripleWithRelation(
+            actionAddr,
+            ScType.EdgeAccessVarPosPerm,
+            [ScType.NodeVar,messageAlias],
+            ScType.EdgeAccessVarPosPerm,
+            keynodes[rrel_1],
+        );
+        template.tripleWithRelation(
+            messageAlias,
+            ScType.EdgeAccessVarPosPerm,
+            [ScType.LinkVar,firstCordsAlias],
+            ScType.EdgeAccessVarPosPerm,
+            keynodes[rrel_first_cords],
+        );
+        template.tripleWithRelation(
+            messageAlias,
+            ScType.EdgeAccessVarPosPerm,
+            [ScType.LinkVar,secondCordsAlias],
+            ScType.EdgeAccessVarPosPerm,
+            keynodes[rrel_second_cords],
+        );
         const result = await client.templateSearch(template);
 
+        console.log(`beforeFound`)
         if (result.length) {
-            setMapUrl(`https://yandex.by/map-widget/v1/?ll=27.566914%2C53.891637&mode=routes&rtext=53.882923%2C27.675225~53.899296%2C27.456948&rtt=pd&ruri=~ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg2NjY4NDMyNxJB0JHQtdC70LDRgNGD0YHRjCwg0JzRltC90YHQuiwg0LLRg9C70ZbRhtCwINCQ0LTQt9GW0L3RhtC-0LLQsCwgMTAiCg3Mp9tBFfKYV0I%2C&z=12.94" width="560" height="400" frameborder="1"`)
+            console.log(`found`)
+            const firstCordsLink = result[0].get(firstCordsAlias);
+            const firstCordsResult = await client.getLinkContents([firstCordsLink]);
+            let firstCordsArr;
+            if (firstCordsResult.length) {
+                const firstCordsStr = firstCordsResult[0].data as string;
+                firstCordsArr = firstCordsStr.split(':', 2);
+                console.log(firstCordsStr)
+            }
+            const secondCordsLink = result[0].get(secondCordsAlias);
+            const secondCordsResult = await client.getLinkContents([secondCordsLink]);
+            let secondCordsArr;
+            if (secondCordsResult.length) {
+                const secondCordsStr = secondCordsResult[0].data as string;
+                secondCordsArr = secondCordsStr.split(':', 2);
+                console.log(secondCordsStr)
+            }
+            console.log(`https://yandex.by/map-widget/v1/?mode=routes&rtext=`+firstCordsArr[0]+`%2C`+firstCordsArr[1]+`~`+secondCordsArr[0]+`%2C`+secondCordsArr[1]+`&rtt=pd`)
+            setMapUrl(`https://yandex.by/map-widget/v1/?mode=routes&rtext=`+firstCordsArr[0]+`%2C`+firstCordsArr[1]+`~`+secondCordsArr[0]+`%2C`+secondCordsArr[1]+`&rtt=pd`)
         }
 
     };
@@ -176,13 +218,13 @@ export const Demo = () => {
     );
 };
 
-{/* <div style="position:relative;overflow:hidden;"><a href="https://yandex.by/maps/157/minsk/?utm_medium=mapframe&utm_source=maps" 
+/* <div style="position:relative;overflow:hidden;"><a href="https://yandex.by/maps/157/minsk/?utm_medium=mapframe&utm_source=maps"
         style="color:#eee;font-size:12px;position:absolute;top:0px;">Минск</a>
         <a href="https://yandex.by/maps/157/minsk/?ll=27.571522%2C53.902657&mode=Routes&rtext=53.908470%2C27.479467~53.914596%2C27.663299&rtt=auto
         &ruri=~ymapsbm1%3A%2F%2Ftransit%2Fstop%3Fid%3Dstation__lh_9614089&utm_medium=mapframe&utm_source=maps&z=11.72" 
         style="color:#eee;font-size:12px;position:absolute;top:14px;">Яндекс Карты</a>
         <iframe src="https://yandex.by/map-widget/v1/?ll=27.571522%2C53.902657&mode=Routes&rtext=53.908470%2C27.479467~53.914596%2C27.663299
         &rtt=auto&ruri=~ymapsbm1%3A%2F%2Ftransit%2Fstop%3Fid%3Dstation__lh_9614089&z=11.72" width="560" height="400" frameborder="1" 
-        allowfullscreen="true" style="position:relative;"></iframe></div> */}
+        allowfullscreen="true" style="position:relative;"></iframe></div> */
 // oid=141245946157&
 // ol=biz&
