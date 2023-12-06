@@ -5,12 +5,12 @@
   </a>
 </p>
 
-> **N**IKA is an **I**ntelligent **K**nowledge-driven **A**ssistant
+> Dialogue system-navigator for disabled people
 
 ## About
-NIKA is an ostis-system designed with [OSTIS Technology principles](https://github.com/ostis-ai) in mind. 
+Dialogue system-navigator for disabled people is an ostis-system designed with [OSTIS Technology principles](https://github.com/ostis-ai) in mind. 
 
-You can learn more about it by asking the assistant: "What's NIKA?"
+
 
 ## Run documentation
 
@@ -34,7 +34,7 @@ We recommend using Docker Desktop on [macOS](https://docs.docker.com/desktop/ins
 ## Installation
 
 ```sh
-git clone -c core.longpaths=true -c core.autocrlf=true https://github.com/ostis-apps/nika
+git clone -c core.longpaths=true -c core.autocrlf=true https://github.com/DanikZorin/nika
 cd nika
 git submodule update --init --recursive
 docker compose pull
@@ -56,8 +56,7 @@ You can use `docker compose run machine build` to rebuild KB manually.
 
 ## Author
 
-* Website: [sem.systems](https://sem.systems/)
-* GitHub: [@ostis-apps](https://github.com/ostis-apps), [@ostis-ai](https://github.com/ostis-ai)
+* GitHub: [@ostis-apps](https://github.com/ostis-apps), [@ostis-ai](https://github.com/ostis-ai), [@DanikZorin](https://github.com/DanikZorin), [@VerogoR](https://github.com/VerogoR)
 
 ## Show your support
 
@@ -90,12 +89,12 @@ Common issues:
   
   **Solution 1**: Increasing `start_period` in `docker-compose.yml` might help you.
 
-  **Solution 2**: Check [known issues](https://github.com/ostis-apps/nika/issues), and in case your problem is not reported yet, create a new one! 
+  **Solution 2**: Check [known issues](https://github.com/DanikZorin/nika/issues), and in case your problem is not reported yet, create a new one! 
 
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/ostis-apps/nika/issues). 
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/DanikZorin/nika/issues). 
 
 ## 📝 License
 
