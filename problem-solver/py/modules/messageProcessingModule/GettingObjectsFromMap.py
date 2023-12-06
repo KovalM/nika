@@ -107,7 +107,7 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         
 
     def translate_object_info_to_kb(self, place_info, city_addr, node_entity):
-        self.clear_previous_answer(node_entity)
+        self.clear_previous_answer(node_entity,)
         
         lang_ru = ScKeynodes.resolve("lang_ru", sc_types.NODE_CONST_CLASS)
         possible_places=[]
@@ -171,38 +171,38 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         [adress_list] = client.get_links_by_content(adress)
         print(adress_list)
         node_entity_object = create_node(sc_types.NODE_CONST)
-        if not len(adress_list)==0:
+        # if not len(adress_list)==0:
             
-            [adress_link] = adress_list
-            template = ScTemplate()
-            template.triple_with_relation(
-                [sc_types.NODE_VAR, '_node_entity_object'],
-                sc_types.EDGE_D_COMMON_VAR,
-                adress_link,
-                sc_types.EDGE_ACCESS_VAR_POS_PERM,
-                ScKeynodes.resolve("nrel_address", sc_types.NODE_CONST_NOROLE)
-            )
+        #     [adress_link] = adress_list
+        #     template = ScTemplate()
+        #     template.triple_with_relation(
+        #         [sc_types.NODE_VAR, '_node_entity_object'],
+        #         sc_types.EDGE_D_COMMON_VAR,
+        #         adress_link,
+        #         sc_types.EDGE_ACCESS_VAR_POS_PERM,
+        #         ScKeynodes.resolve("nrel_address", sc_types.NODE_CONST_NOROLE)
+        #     )
             
-            template.triple_with_relation(
-                '_node_entity_object',
-                sc_types.EDGE_D_COMMON_VAR,
-                [sc_types.NODE_VAR, '_city'],
-                sc_types.EDGE_ACCESS_VAR_POS_PERM,
-                ScKeynodes.resolve("nrel_geolocation", sc_types.NODE_CONST_NOROLE)
-            )
+        #     template.triple_with_relation(
+        #         '_node_entity_object',
+        #         sc_types.EDGE_D_COMMON_VAR,
+        #         [sc_types.NODE_VAR, '_city'],
+        #         sc_types.EDGE_ACCESS_VAR_POS_PERM,
+        #         ScKeynodes.resolve("nrel_geolocation", sc_types.NODE_CONST_NOROLE)
+        #     )
            
-            template.triple(
-                node_entity,
-                sc_types.EDGE_ACCESS_VAR_POS_PERM,
-                node_entity_object
-            )
+        #     template.triple(
+        #         node_entity,
+        #         sc_types.EDGE_ACCESS_VAR_POS_PERM,
+        #         node_entity_object
+        #     )
             
-            results = template_search(template)
-            if len(results) != 0:
-                result = results[0]
-                create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, answer_node, result['_node_entity_object'])
-            print('adress list != 0')
-            return answer_node
+        #     results = template_search(template)
+        #     if len(results) != 0:
+        #         result = results[0]
+        #         create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, answer_node, result['_node_entity_object'])
+        #     print('adress list != 0')
+        #     return answer_node
         
         
         
