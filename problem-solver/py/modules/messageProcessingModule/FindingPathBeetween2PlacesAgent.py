@@ -125,10 +125,11 @@ class FindingPathAgent(ScAgentClassic):
 
             print(first_cords, '=', second_cords, '=', city_cords)
             print(type(first_cords), '=', type(second_cords), '=', type(city_cords))
-            
+ 
             directions_result = self.gmaps.directions(first_c[0]["formatted_address"],
                                      second_c[0]["formatted_address"],
-                                     mode="transit", 
+                                     #  mode="transit",
+                                     mode="walking",
                                      departure_time=now, region="BE", language="RU")
             print('============================')
             print('============================')
@@ -139,10 +140,10 @@ class FindingPathAgent(ScAgentClassic):
             print('============================')
             print(directions_result[0]["legs"][0]["distance"]["text"])
             print(directions_result[0]["legs"][0]["duration"]["text"])
-            print(directions_result[0]["legs"][0]["arrival_time"]["text"])
+            # print(directions_result[0]["legs"][0]["arrival_time"]["text"])
             time = directions_result[0]["legs"][0]["duration"]["text"]
             dist = directions_result[0]["legs"][0]["distance"]["text"]
-            arr_time = directions_result[0]["legs"][0]["arrival_time"]["text"]
+            # arr_time = directions_result[0]["legs"][0]["arrival_time"]["text"]
 
             lang_ru = ScKeynodes.resolve("lang_ru", sc_types.NODE_CONST_CLASS)
 
@@ -150,7 +151,7 @@ class FindingPathAgent(ScAgentClassic):
             # create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, lang_ru, time_link)
             dist_link = create_link(dist, ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
             # create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, lang_ru, dist_link)
-            arr_time_link = create_link(arr_time, ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
+            # arr_time_link = create_link(arr_time, ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
             # create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, lang_ru, arr_time_link)e
 
             arr_time_addr = ScKeynodes.resolve("rrel_arrival_time", sc_types.NODE_CONST_ROLE)
@@ -159,8 +160,8 @@ class FindingPathAgent(ScAgentClassic):
 
             edge = create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, message_addr, time_link)
             create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, time_addr, edge)
-            edge = create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, message_addr, arr_time_link)
-            create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, arr_time_addr, edge)
+            # edge = create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, message_addr, arr_time_link)
+            # create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, arr_time_addr, edge)
             edge = create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, message_addr, dist_link)
             create_edge(sc_types.EDGE_ACCESS_CONST_POS_PERM, distance_addr, edge)
 
