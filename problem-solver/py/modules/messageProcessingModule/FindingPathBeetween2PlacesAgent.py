@@ -130,6 +130,13 @@ class FindingPathAgent(ScAgentClassic):
                                      second_c[0]["formatted_address"],
                                      mode="transit", 
                                      departure_time=now, region="BE", language="RU")
+            print('============================')
+            print('============================')
+            print('============================')
+            print(directions_result[0])
+            print('============================')
+            print('============================')
+            print('============================')
             print(directions_result[0]["legs"][0]["distance"]["text"])
             print(directions_result[0]["legs"][0]["duration"]["text"])
             print(directions_result[0]["legs"][0]["arrival_time"]["text"])

@@ -107,7 +107,7 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         
 
     def translate_object_info_to_kb(self, place_info, city_addr, node_entity):
-        
+        self.clear_previous_answer(node_entity)
         
         lang_ru = ScKeynodes.resolve("lang_ru", sc_types.NODE_CONST_CLASS)
         possible_places=[]
@@ -170,7 +170,9 @@ class MapsObjectsInfoAgent(ScAgentClassic):
 
         [adress_list] = client.get_links_by_content(adress)
         print(adress_list)
+        node_entity_object = create_node(sc_types.NODE_CONST)
         if not len(adress_list)==0:
+            
             [adress_link] = adress_list
             template = ScTemplate()
             template.triple_with_relation(
@@ -204,7 +206,7 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         
         
         
-        node_entity_object = create_node(sc_types.NODE_CONST)
+        
         object_address = create_link(str(adress), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
         object_name = create_link(str(objname), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
         obj_place_cords_link = create_link(str(obj_place_cords[0])+':'+str(obj_place_cords[1]), ScLinkContentType.STRING, link_type=sc_types.LINK_CONST)
@@ -418,6 +420,21 @@ class MapsObjectsInfoAgent(ScAgentClassic):
         if len(search_results) == 1:
             return userAddr
     
+    def clear_previous_answer(self, node_entity):
+        if not node_entity.is_valid():
+            return
+
+        template = ScTemplate()
+        template.triple(
+            node_entity,
+            sc_types.EDGE_ACCESS_VAR_POS_PERM,
+            sc_types.NODE_VAR
+        )
+        search_results = template_search(template)
+        for result in search_results:
+            delete_edges(result[0], result[2], sc_types.EDGE_ACCESS_VAR_POS_PERM)
+
+
     # def get_user_location(self, user_addr) -> str:
     #     nrel_location = ScKeynodes.resolve("nrel_location", sc_types.NODE_CONST_NOROLE) 
     #     user_location_addr = get_element_by_norole_relation(user_addr, nrel_location)
