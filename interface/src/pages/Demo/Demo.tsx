@@ -10,6 +10,9 @@ import { SC_WEB_URL } from "@constants";
 import { lazy, useEffect, useState } from "react";
 import { ScAddr, ScEventParams, ScEventType, ScTemplate, ScType } from "ts-sc-client";
 import { client } from "@api";
+import { MarkerWithLabel } from "react-google-maps/lib/components/addons/MarkerWithLabel"
+import { compose, withProps } from "recompose"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 
 export const Demo = () => {
     const [user, setUser] = useState<ScAddr | null>(null);
@@ -93,8 +96,7 @@ export const Demo = () => {
                 console.log(cords_arr[1], cords_arr[0])
             }
         }    
-    
-    };
+   };
     async function onNewRoute(classAddr: ScAddr, edgeAddr: ScAddr, actionAddr: ScAddr, eventId: number) {
         const action_get_path_between_objects = 'action_get_path_between_objects';
         const rrel_1 = 'rrel_1';
@@ -166,6 +168,9 @@ export const Demo = () => {
         }
 
     };
+    // const MyMapComponent = withGoogleMap((props) => <GoogleMap defaultZoom={8} defaultCenter={{ lat: -34.397, lng: 150.644 }} > 
+    // {<Marker position={{ lat: -34.397, lng: 150.644 }} />} </GoogleMap> )
+
     const registerMapEvent = async () => {
         const question_finished = 'question_finished';
 
@@ -180,6 +185,25 @@ export const Demo = () => {
         await client.eventsCreate(newObjectEventParams);
         await client.eventsCreate(newRouteEventParams);
     };
+    const MyMapComponent = compose(
+        withProps({
+          googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCp0BClKtxFt_9uI_WP24B_MT2KyRjvx-o",
+          loadingElement: <div style={{ height: `100%` }} />,
+          containerElement: <div style={{ height: `100%` }} />,
+          mapElement: <div style={{ height: `100%` }} />,
+        }),
+        withScriptjs,
+        withGoogleMap
+      )((props) =>
+        <GoogleMap
+          defaultZoom={8}
+          defaultCenter={{ lat: -34.397, lng: 150.644 }}
+        >
+        <MarkerWithLabel position={{ lat: -34.397, lng: 150.644 }} labelStyle={{backgroundColor: "yellow", fontSize: "32px", padding: "16px"}} > <div>Hello There!</div> </MarkerWithLabel>
+
+          {/* {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} onClick={props.onMarkerClick}/>} */}
+        </GoogleMap>
+      )
     useEffect(() => {
         registerMapEvent();
     },[]);
@@ -212,7 +236,12 @@ export const Demo = () => {
                 </Chat>
             </ChatWrapper>
             <SCgViewerWrapper>
-                <iframe className="frame-map" src={mapUrl} style={{width: '100%', height: '100%', border: 0, borderRadius: '15px'}} />
+                {/* <iframe className="frame-map" src={mapUrl} style={{width: '100%', height: '100%', border: 0, borderRadius: '15px'}} /> */}
+                {/* <GoogleMap defaultZoom={8} defaultCenter={{ lat: -34.397, lng: 150.644 }} >
+                     {<Marker position={{ lat: -34.397, lng: 150.644 }} />} </GoogleMap> */}
+                <MyMapComponent isMarkerShown={true} onMarkerClick={() => {}} />
+
+
             </SCgViewerWrapper>
         </Wrapper>
     );
