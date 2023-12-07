@@ -1,0 +1,8 @@
+concept_unknown_ramp_class
+<- sc_node_class;
+=> nrel_main_idtf:
+	[место, не имеющее информация о наличии пандуса] (* <- lang_ru;; *);
+	[place without information about the presence of a ramp] (* <- lang_en;; *);
+=> nrel_note:
+	[Место, не имеющее информация о наличии пандуса это место, о котором не известна доступность для людей с нарушением опорно-двигательного аппарата] (* <- lang_ru;; *);
+	[A place that hasn't information about the presence of a ramp is a place that is unknown to be accessible to people with mobility impairments] (* <- lang_en;; *);;

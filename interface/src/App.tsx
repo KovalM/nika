@@ -35,9 +35,9 @@ const AboutRoutes = () => (
 );
 
 export const App = () => {
-        const [headerBgColor, setHeaderBgColor] = useState<string>('#39494C');
+        const [headerBgColor, setHeaderBgColor] = useState<string>('#06626b');
         const [mainBgColor, setMainBgColor] = useState<string>('#fcfafa');
-        const [footerBgColor, setFooterBgColor] = useState<string>('#39494C');
+        const [footerBgColor, setFooterBgColor] = useState<string>('#06626b');
         
         const funcChange = [setHeaderBgColor, setMainBgColor, setFooterBgColor]
 

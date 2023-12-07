@@ -6,3 +6,12 @@ concept_message_about_location
 	(* <- lang_ru;; *);
 => nrel_wit_ai_idtf:
 	[about_location];;
+
+concept_message_about_path
+<- sc_node_class;
+<- concept_intent_possible_class;
+=> nrel_main_idtf:
+	[Сообщение о расстоянии между двумя объектами в городе]
+	(* <- lang_ru;; *);
+=> nrel_wit_ai_idtf:
+	[about_path];;
