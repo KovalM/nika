@@ -199,7 +199,12 @@ export const Demo = () => {
           defaultZoom={8}
           defaultCenter={{ lat: -34.397, lng: 150.644 }}
         >
-        <MarkerWithLabel position={{ lat: -34.397, lng: 150.644 }} labelStyle={{backgroundColor: "yellow", fontSize: "32px", padding: "16px"}} > <div>Hello There!</div> </MarkerWithLabel>
+        <MarkerWithLabel
+            position={{ lat: -34.397, lng: 150.644 }}
+            labelStyle={{backgroundColor: "yellow", fontSize: "32px", padding: "16px"}}
+            labelAnchor={new google.maps.Point(0, 0)} >
+            <div>Hello There!</div>
+        </MarkerWithLabel>
 
           {/* {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} onClick={props.onMarkerClick}/>} */}
         </GoogleMap>
